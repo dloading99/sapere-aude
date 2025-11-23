@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sapere Aude | Metodo di Studio Filosofico</title>
+    
+    <!-- Fonts: Playfair Display (Serif Editoriale) & Inter (Sans Moderno) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* =========================================
+           1. CORE VARIABLES & RESET (MOBILE FIRST)
+           ========================================= */
+        :root {
+            /* Palette */
+            --bg-paper: #F5F0E8;       /* Avorio Caldo */
+            --bg-paper-dark: #EBE5DC;  /* Avorio più scuro per contrasto */
+            --col-primary: #5A1F32;    /* Bordeaux Intellettuale */
+            --col-teal: #155A63;       /* Blu Razionale */
+            --col-teal-dark: #0D3B41;  /* Teal profondo per sfondi */
+            --col-gold: #C3A56A;       /* Oro spento */
+            
+            /* Typography */
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Inter', sans-serif;
+            
+            /* Spacing & Layout */
+            --container-padding: 1.5rem;
+            --section-spacing: 6rem;
+            --border-radius-soft: 4px;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--bg-paper);
+            color: var(--col-primary);
+            font-family: var(--font-sans);
+            line-height: 1.65;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            font-size: 16px; /* Base mobile */
+        }
+
+        /* Texture Carta (Noise) */
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        h1, h2, h3, h4, h5 { font-family: var(--font-serif); font-weight: 400; line-height: 1.2; }
+        p { margin-bottom: 1rem; color: rgba(90, 31, 50, 0.9); }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+
+        /* Utility Classes */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--container-padding);
+            position: relative;
+        }
+
+        .text-center { text-align: center; }
+        .text-gold { color: var(--col-gold); font-style: italic; }
+        
+        /* Act Numbers Background */
+        .act-bg-number {
+            position: absolute;
+            font-family: var(--font-serif);
+            font-size: 12rem;
+            color: var(--col-primary);
+            opacity: 0.04;
+            top: -4rem;
+            left: -1rem;
+            line-height: 1;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* =========================================
+           2. HEADER & TOGGLE
+           ========================================= */
+        header {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            padding: 1rem var(--container-padding);
+            background: rgba(245, 240, 232, 0.95);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(90, 31, 50, 0.05);
+        }
+
+        .brand { font-family: var(--font-serif); font-weight: 600; font-size: 1.2rem; letter-spacing: -0.5px; }
+
+        /* Toggle Design */
+        .role-switch {
+            display: flex;
+            background: rgba(90, 31, 50, 0.05);
+            border: 1px solid rgba(90, 31, 50, 0.1);
+            border-radius: 50px;
+            padding: 3px;
+            position: relative;
+            cursor: pointer;
+        }
+        .switch-bg {
+            position: absolute;
+            top: 3px; left: 3px;
+            width: 50%; height: calc(100% - 6px);
+            background: var(--col-primary);
+            border-radius: 50px;
+            transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            z-index: 1;
+        }
+        .switch-opt {
+            padding: 6px 16px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+            z-index: 2;
+            transition: color 0.3s;
+            user-select: none;
+        }
+        .opt-active { color: #F5F0E8; }
+        .opt-inactive { color: var(--col-primary); opacity: 0.6; }
+
+        /* Toggle States */
+        body[data-role="parent"] .switch-bg { transform: translateX(0); }
+        body[data-role="student"] .switch-bg { transform: translateX(100%); }
+
+        /* =========================================
+           3. HERO MANIFESTO
+           ========================================= */
+        .hero {
+            padding-top: 8rem;
+            padding-bottom: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .hero-headline {
+            font-size: clamp(2.2rem, 8vw, 4.5rem);
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.1rem;
+            max-width: 40ch;
+            opacity: 0.9;
+        }
+
+        /* Vertical decorative text (Desktop only) */
+        .vertical-deco {
+            display: none; /* Hidden on mobile */
+            position: absolute;
+            right: 2rem;
+            top: 30%;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            font-family: var(--font-serif);
+            font-size: 0.9rem;
+            letter-spacing: 3px;
+            color: var(--col-gold);
+            border-right: 1px solid var(--col-gold);
+            padding-right: 1rem;
+            height: 200px;
+        }
+
+        /* Floating Portrait */
+        .hero-portrait {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            filter: grayscale(100%) sepia(20%);
+            mix-blend-mode: multiply;
+            margin-top: 2rem;
+            border-radius: 2px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* =========================================
+           4. ACT I: THE CHAOS
+           ========================================= */
+        .act-section {
+            padding: var(--section-spacing) 0;
+            position: relative;
+        }
+
+        .act-header {
+            margin-bottom: 3rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .act-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--col-teal);
+            margin-bottom: 0.5rem;
+            display: block;
+            font-weight: 600;
+        }
+
+        /* Vignettes Cards */
+        .vignette-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .vignette-card {
+            background: rgba(255, 255, 255, 0.4);
+            border-left: 3px solid var(--col-primary);
+            padding: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .vignette-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: var(--col-primary);
+        }
+
+        .vignette-q {
+            font-family: var(--font-serif);
+            font-style: italic;
+            color: var(--col-teal);
+            margin-top: 1rem;
+            font-size: 0.95rem;
+        }
+
+        /* =========================================
+           5. ACT II: THE ORDER (SCROLLYTELLING)
+           ========================================= */
+        .order-wrapper {
+            position: relative;
+        }
+
+        /* Sticky sidebar logic implemented via flex on desktop */
+        .order-nav {
+            display: none; /* Hidden on mobile */
+        }
+
+        .order-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+
+        .order-step {
+            opacity: 0.5;
+            transition: opacity 0.5s, transform 0.5s;
+            border-left: 1px solid rgba(21, 90, 99, 0.2);
+            padding-left: 1.5rem;
+        }
+
+        .order-step.active-phase {
+            opacity: 1;
+            transform: translateX(10px);
+            border-left: 3px solid var(--col-teal);
+        }
+
+        .step-num {
+            font-family: var(--font-serif);
+            color: var(--col-gold);
+            font-size: 1.5rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        /* =========================================
+           6. QUIZ IMMERSIVO
+           ========================================= */
+        .quiz-section {
+            background-color: var(--col-teal-dark);
+            color: #fff;
+            padding: 4rem 1.5rem;
+            margin: 4rem 0;
+            border-radius: 2px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quiz-section::before {
+             /* Texture noise leggera anche qui */
+            content: ""; position: absolute; top:0; left:0; width:100%; height:100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.1'/%3E%3C/svg%3E");
+            opacity: 0.3; pointer-events: none;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 1rem;
+            position: relative; z-index: 2;
+        }
+
+        .quiz-progress { font-size: 0.8rem; letter-spacing: 1px; color: var(--col-gold); }
+
+        .quiz-content { position: relative; z-index: 2; min-height: 300px; }
+
+        .quiz-question { font-size: 1.5rem; margin-bottom: 2rem; }
+
+        .quiz-opt-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        .quiz-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff;
+            padding: 1.2rem;
+            text-align: left;
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .quiz-btn:hover, .quiz-btn:active {
+            background: rgba(255,255,255,0.15);
+            border-color: var(--col-gold);
+        }
+
+        .feedback-msg {
+            font-style: italic;
+            color: var(--col-gold);
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s;
+        }
+        .feedback-visible { opacity: 1; transform: translateY(0); }
+
+        /* =========================================
+           7. OPEN LETTER (NEW SECTION)
+           ========================================= */
+        .letter-section {
+            max-width: 65ch;
+            margin: 0 auto;
+            padding: 4rem var(--container-padding);
+        }
+        
+        .letter-title {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .letter-body {
+            font-family: var(--font-serif);
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: #333;
+        }
+
+        .letter-body p:first-of-type::first-letter {
+            float: left;
+            font-size: 3.5rem;
+            line-height: 0.8;
+            padding-right: 0.5rem;
+            padding-top: 0.2rem;
+            color: var(--col-primary);
+            font-weight: 600;
+        }
+
+        .signature {
+            margin-top: 2rem;
+            text-align: right;
+            font-style: italic;
+            color: var(--col-primary);
+        }
+
+        /* =========================================
+           8. ACT III: TRANSFORMATION
+           ========================================= */
+        .comparison-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .compare-pair {
+            display: grid;
+            grid-template-rows: auto auto;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .before-card {
+            background: var(--bg-paper-dark);
+            padding: 2rem;
+            color: #666;
+            font-style: italic;
+            position: relative;
+        }
+        .before-card::after {
+            content: "↓";
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--col-primary);
+            color: #fff;
+            width: 30px; height: 30px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.8rem;
+            z-index: 2;
+        }
+
+        .after-card {
+            background: #fff;
+            padding: 2rem;
+            color: var(--col-primary);
+            font-weight: 500;
+            border-top: none;
+        }
+
+        /* Timeline minimal */
+        .timeline {
+            margin-top: 4rem;
+            padding-left: 1rem;
+            border-left: 1px solid var(--col-gold);
+        }
+        .timeline-item {
+            position: relative;
+            padding-left: 2rem;
+            padding-bottom: 3rem;
+        }
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: -5px; top: 5px;
+            width: 9px; height: 9px;
+            background: var(--bg-paper);
+            border: 2px solid var(--col-primary);
+            border-radius: 50%;
+        }
+        .t-time { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--col-teal); margin-bottom: 0.2rem; display:block; }
+
+        /* =========================================
+           9. FOOTER & STICKY BAR
+           ========================================= */
+        .footer-cta {
+            padding: 6rem 1.5rem 8rem 1.5rem; /* Bottom padding for sticky bar */
+            text-align: center;
+            background: #fff;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            background-color: var(--col-primary);
+            color: #fff;
+            padding: 1rem 2.5rem;
+            font-family: var(--font-sans);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 0.85rem;
+            margin-top: 1rem;
+            border: 1px solid var(--col-primary);
+        }
+        .btn-primary:hover { background-color: transparent; color: var(--col-primary); }
+
+        .btn-text {
+            display: inline-block;
+            margin-top: 1.5rem;
+            border-bottom: 1px solid var(--col-primary);
+            padding-bottom: 2px;
+            font-size: 0.9rem;
+        }
+
+        /* MOBILE STICKY BAR */
+        .sticky-bar {
+            position: fixed;
+            bottom: 0; left: 0; width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            border-top: 1px solid rgba(0,0,0,0.1);
+            padding: 1rem var(--container-padding);
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            transform: translateY(110%);
+            transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            z-index: 999;
+        }
+        .sticky-bar.visible { transform: translateY(0); }
+
+        .sticky-text { font-size: 0.85rem; color: #555; }
+        .sticky-btn {
+            background: var(--col-teal);
+            color: #fff;
+            text-align: center;
+            padding: 0.8rem;
+            border-radius: 4px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            width: 100%;
+            display: block;
+        }
+
+        /* =========================================
+           10. DESKTOP ENHANCEMENTS (MEDIA QUERIES)
+           ========================================= */
+        @media (min-width: 1024px) {
+            body { font-size: 18px; }
+            
+            .container { padding: 0 4rem; }
+
+            /* Hero Desktop */
+            .hero-content {
+                max-width: 70%;
+                margin: 0 auto;
+                text-align: center;
+            }
+            .hero-portrait {
+                position: absolute;
+                width: 350px;
+                height: 450px;
+                right: 5%;
+                top: 15%;
+                margin-top: 0;
+                box-shadow: 20px 20px 0 rgba(21, 90, 99, 0.1);
+            }
+            .vertical-deco { display: block; }
+            .hero-headline { margin-bottom: 2rem; }
+            .hero-subtitle { margin: 0 auto; }
+
+            /* Act I */
+            .act-bg-number { font-size: 25rem; top: -8rem; left: -5rem; }
+            .vignette-stack {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            /* Act II (Side by Side) */
+            .order-wrapper {
+                display: grid;
+                grid-template-columns: 1fr 2fr;
+                gap: 6rem;
+                align-items: start;
+            }
+            .order-nav {
+                display: block;
+                position: sticky;
+                top: 25vh;
+            }
+            .order-nav h2 { font-size: 3rem; margin-bottom: 1.5rem; }
+            
+            /* Quiz */
+            .quiz-section { max-width: 800px; margin: 6rem auto; padding: 5rem; }
+            .quiz-opt-grid { grid-template-columns: 1fr 1fr; }
+
+            /* Act III */
+            .compare-pair {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: auto;
+                border: none;
+                gap: 2rem;
+                align-items: center;
+            }
+            .before-card { background: transparent; padding: 0; text-align: right; border-right: 1px solid rgba(0,0,0,0.1); padding-right: 2rem; }
+            .before-card::after { display: none; } /* Remove arrow on desktop */
+            .after-card { padding: 0; background: transparent; padding-left: 1rem; }
+            
+            .timeline {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                border-left: none;
+                border-top: 1px solid var(--col-gold);
+                padding-top: 2rem;
+                padding-left: 0;
+            }
+            .timeline-item { padding-left: 0; padding-top: 2rem; text-align: center; width: 30%; border-left: none; padding-bottom: 0; }
+            .timeline-item::before { top: -6px; left: 50%; transform: translateX(-50%); }
+
+            /* Sticky Bar Desktop */
+            .sticky-bar {
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                gap: 2rem;
+                padding: 1rem;
+            }
+            .sticky-btn { width: auto; padding: 0.8rem 3rem; }
+        }
+    </style>
+</head>
+<body data-role="parent">
+
+    <!-- HEADER -->
+    <header>
+        <div class="brand">L.M. Filosofia</div>
+        <div class="role-switch" id="roleToggle">
+            <div class="switch-bg"></div>
+            <div class="switch-opt opt-active" id="optParent">Genitore</div>
+            <div class="switch-opt opt-inactive" id="optStudent">Studente</div>
+        </div>
+    </header>
+
+    <!-- HERO MANIFESTO -->
+    <section class="hero container">
+        <div class="vertical-deco">SAPERE AUDE - ABBI CORAGGIO</div>
+        
+        <div class="hero-content">
+            <h1 class="hero-headline" id="heroTitle">Vedere tuo figlio affondare, sapendo che è intelligente.</h1>
+            <p class="hero-subtitle" id="heroSub">La scuola chiede risultati, ma nessuno insegna <em>come</em> pensare. Trasformiamo la confusione in metodo.</p>
+        </div>
+        
+        <!-- Immagine Placeholder: Ritratto Astratto/Intellettuale -->
+        <img src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Ritratto Docente" class="hero-portrait">
+    </section>
+
+    <!-- ATTO I: IL CAOS -->
+    <section class="act-section container" id="act1">
+        <div class="act-bg-number">I</div>
+        <div class="act-header">
+            <span class="act-label">Atto I &mdash; Il Caos</span>
+            <h2>Scene di vita quotidiana</h2>
+        </div>
+
+        <div class="vignette-stack" id="vignettes">
+            <article class="vignette-card">
+                <h4>01. Domenica Sera</h4>
+                <p>Il registro segna tre verifiche. In casa cala il silenzio teso. Ti chiedi: "Perché deve essere sempre una battaglia?"</p>
+                <div class="vignette-q">Come ne usciamo?</div>
+            </article>
+            <article class="vignette-card">
+                <h4>02. Il Voto che non Torna</h4>
+                <p>"Ma aveva studiato!" Eppure è un 5. Lui si demotiva, tu non sai più come aiutarlo senza fare i compiti per lui.</p>
+                <div class="vignette-q">Dov'è l'errore?</div>
+            </article>
+            <article class="vignette-card">
+                <h4>03. Foglio Bianco</h4>
+                <p>Manca la struttura, manca il filo logico. L'esame si avvicina e la pagina resta bianca nonostante le ore passate.</p>
+                <div class="vignette-q">Come sbloccarsi?</div>
+            </article>
+        </div>
+    </section>
+
+    <!-- ATTO II: L'ORDINE -->
+    <section class="act-section container" id="orderSection">
+        <div class="act-bg-number">II</div>
+        
+        <div class="order-wrapper">
+            <!-- Desktop Sidebar -->
+            <div class="order-nav">
+                <span class="act-label">Atto II &mdash; L'Ordine</span>
+                <h2>Non servono<br>ripetizioni.<br>Serve un<br>Sistema.</h2>
+                <div style="width: 50px; height: 1px; background: var(--col-primary); margin-top: 2rem;"></div>
+            </div>
+
+            <!-- Mobile Title -->
+            <div class="act-header" style="margin-bottom: 2rem; display: block; @media(min-width: 1024px){display: none;}">
+                 <span class="act-label">Atto II &mdash; L'Ordine</span>
+                 <h2>Il Metodo</h2>
+            </div>
+
+            <!-- Steps -->
+            <div class="order-steps">
+                <article class="order-step active-phase" data-step="1">
+                    <span class="step-num">01.</span>
+                    <h3>Mettere a Fuoco</h3>
+                    <p>Non apriamo il libro. Prima isoliamo il blocco. È lessicale? Logico? Emotivo? Traduciamo il "filosofese" in lingua umana.</p>
+                </article>
+                <article class="order-step" data-step="2">
+                    <span class="step-num">02.</span>
+                    <h3>Smontare</h3>
+                    <p>Analisi, dal greco <em>analýo</em>: sciolgo. Un capitolo di storia non è un blocco unico, è un puzzle. Troviamo i pezzi angolari per ricostruire il quadro.</p>
+                </article>
+                <article class="order-step" data-step="3">
+                    <span class="step-num">03.</span>
+                    <h3>Ricollegare</h3>
+                    <p>Qui nasce il pensiero critico. Colleghiamo i pezzi con la logica, non con la memoria a breve termine. Tutto diventa consequenziale.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- QUIZ IMMERSIVO -->
+    <section class="container">
+        <div class="quiz-section" id="quizBox">
+            <div class="quiz-header">
+                <span>Diagnostica</span>
+                <span class="quiz-progress" id="quizProgress">Step 1/2</span>
+            </div>
+            
+            <div class="quiz-content" id="quizContent">
+                <!-- Inserito via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- LETTERA APERTA -->
+    <section class="letter-section">
+        <h3 class="letter-title">Una nota personale.</h3>
+        <div class="letter-body">
+            <p>Ho passato anni a vedere studenti brillanti convincersi di essere "stupidi" solo perché nessuno aveva dato loro le istruzioni per l'uso del proprio cervello. Il sistema scolastico spesso chiede di memorizzare risposte a domande che non ci siamo mai posti.</p>
+            <p>Il mio lavoro non è farti prendere 8. Quello è l'effetto collaterale. Il mio lavoro è insegnarti a non avere paura della pagina scritta, a smontare un'argomentazione fallace e a costruire il tuo pensiero con solidità.</p>
+            <p>Perché quando impari a ragionare, non solo studi meglio: vivi meglio.</p>
+        </div>
+        <div class="signature">L.M.</div>
+    </section>
+
+    <!-- ATTO III: TRASFORMAZIONE -->
+    <section class="act-section container">
+        <div class="act-bg-number">III</div>
+        <div class="act-header">
+            <span class="act-label">Atto III &mdash; La Trasformazione</span>
+            <h2>Quando cambi prospettiva.</h2>
+        </div>
+
+        <div class="comparison-wrapper">
+            <div class="compare-pair">
+                <div class="before-card">"Devo studiare 50 pagine a memoria per domani."</div>
+                <div class="after-card">"Ho individuato i 3 concetti chiave, il resto è logica."</div>
+            </div>
+            <div class="compare-pair">
+                <div class="before-card">Appunti sparsi, evidenziatore ovunque.</div>
+                <div class="after-card">Mappe gerarchiche. Poche parole, molte connessioni.</div>
+            </div>
+            <div class="compare-pair">
+                <div class="before-card">Panico da foglio bianco o scena muta.</div>
+                <div class="after-card">Capacità di improvvisare collegamenti intelligenti.</div>
+            </div>
+        </div>
+
+        <div class="timeline">
+            <div class="timeline-item">
+                <span class="t-time">1 Mese</span>
+                <strong>Pulizia del metodo.</strong> Smettiamo di fare le cose inutili. I voti si stabilizzano.
+            </div>
+            <div class="timeline-item">
+                <span class="t-time">3 Mesi</span>
+                <strong>Autonomia.</strong> Inizi a prevedere le domande del docente. L'ansia diventa concentrazione.
+            </div>
+            <div class="timeline-item">
+                <span class="t-time">Esame</span>
+                <strong>Padronanza.</strong> Non studi più per il voto, ma per competenza.
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER & CTA -->
+    <footer class="footer-cta">
+        <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Sapere Aude.</h2>
+        <p style="max-width: 500px; margin: 0 auto;">Se ti sei riconosciuto in almeno una delle situazioni sopra, una singola lezione può cambiare tutto.</p>
+        
+        <div>
+            <a href="#" class="btn-primary">Prenota la lezione di prova</a>
+        </div>
+        <a href="#" class="btn-text">Oppure scrivimi su WhatsApp</a>
+        
+        <div style="margin-top: 4rem; font-size: 0.7rem; color: #999;">
+            &copy; 2024 Studio Filosofico L.M. - P.IVA 00000000000
+        </div>
+    </footer>
+
+    <!-- MOBILE STICKY BAR -->
+    <div class="sticky-bar" id="stickyBar">
+        <span class="sticky-text">Dubbi? Scrivimi scuola, classe e materia.</span>
+        <a href="#" class="sticky-btn">Invia messaggio WhatsApp</a>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // --- DATA CONTENT ---
+        const content = {
+            parent: {
+                title: "Vedere tuo figlio affondare, sapendo che è intelligente.",
+                sub: "La scuola chiede risultati, ma nessuno insegna come pensare. Trasformiamo la confusione in metodo.",
+                vigs: [
+                    { t: "Domenica Sera", p: "Il registro segna tre verifiche. In casa cala il silenzio teso. Ti chiedi: 'Perché deve essere sempre una battaglia?'" },
+                    { t: "Il Voto che non Torna", p: "'Ma aveva studiato!' Eppure è un 5. Lui si demotiva, tu non sai più come aiutarlo senza fare i compiti per lui." },
+                    { t: "Foglio Bianco", p: "Manca la struttura, manca il filo logico. L'esame si avvicina e la pagina resta bianca." }
+                ]
+            },
+            student: {
+                title: "Quella sensazione di studiare per ore e non trattenere nulla.",
+                sub: "Non è colpa della tua memoria. È il metodo che manca. Smetti di memorizzare, inizia a capire.",
+                vigs: [
+                    { t: "Ansia da libro", p: "Hai il libro aperto da due ore sulla stessa pagina. Le parole scivolano via. L'ansia sale per domani." },
+                    { t: "Scena Muta", p: "Credevi di sapere tutto. Davanti al prof, buio totale. Ti convinci di non essere portato, ma è una bugia." },
+                    { t: "Caos Mentale", p: "Hai le idee, ma non sai collegarle. Scrivi, cancelli, riscrivi. Ti manca l'architettura del discorso." }
+                ]
+            }
+        };
+
+        // --- 1. TOGGLE LOGIC ---
+        const toggleBtn = document.getElementById('roleToggle');
+        const heroTitle = document.getElementById('heroTitle');
+        const heroSub = document.getElementById('heroSub');
+        const vigStack = document.getElementById('vignettes');
+
+        toggleBtn.addEventListener('click', () => {
+            const body = document.body;
+            const currentRole = body.getAttribute('data-role');
+            const newRole = currentRole === 'parent' ? 'student' : 'parent';
+            
+            // Switch UI classes
+            body.setAttribute('data-role', newRole);
+            const parentOpt = document.getElementById('optParent');
+            const studentOpt = document.getElementById('optStudent');
+            
+            if(newRole === 'student'){
+                parentOpt.classList.replace('opt-active', 'opt-inactive');
+                studentOpt.classList.replace('opt-inactive', 'opt-active');
+            } else {
+                studentOpt.classList.replace('opt-active', 'opt-inactive');
+                parentOpt.classList.replace('opt-inactive', 'opt-active');
+            }
+
+            // Update Content with Opacity Transition
+            heroTitle.style.opacity = 0;
+            heroSub.style.opacity = 0;
+            vigStack.style.opacity = 0;
+
+            setTimeout(() => {
+                const data = content[newRole];
+                heroTitle.textContent = data.title;
+                heroSub.innerHTML = data.sub; // use innerHTML for <em>
+                
+                // Update Vignettes
+                const cards = vigStack.querySelectorAll('.vignette-card');
+                cards.forEach((card, i) => {
+                    card.querySelector('h4').textContent = `0${i+1}. ${data.vigs[i].t}`;
+                    card.querySelector('p').textContent = data.vigs[i].p;
+                });
+
+                heroTitle.style.opacity = 1;
+                heroSub.style.opacity = 1;
+                vigStack.style.opacity = 1;
+            }, 300);
+        });
+
+        // --- 2. ORDER SECTION SCROLL OBSERVER ---
+        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.6 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Remove active from all
+                    document.querySelectorAll('.order-step').forEach(el => el.classList.remove('active-phase'));
+                    // Add to current
+                    entry.target.classList.add('active-phase');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.order-step').forEach(step => observer.observe(step));
+
+
+        // --- 3. QUIZ LOGIC ---
+        const quizBox = document.getElementById('quizContent');
+        const progress = document.getElementById('quizProgress');
+        let q1Answer = '';
+
+        const renderStep1 = () => {
+            quizBox.innerHTML = `
+                <h3 class="quiz-question">Qual è il nemico principale oggi?</h3>
+                <div class="quiz-opt-grid">
+                    <button class="quiz-btn" onclick="handleStep1('memoria')">Non ricordo quello che studio</button>
+                    <button class="quiz-btn" onclick="handleStep1('comprensione')">Non capisco i testi difficili</button>
+                    <button class="quiz-btn" onclick="handleStep1('ansia')">L'ansia mi blocca all'orale</button>
+                    <button class="quiz-btn" onclick="handleStep1('metodo')">Non so organizzarmi</button>
+                </div>
+                <div class="feedback-msg" id="feedback">Capisco. È molto comune.</div>
+            `;
+            progress.textContent = "Step 1/2";
+        };
+
+        const renderStep2 = () => {
+            quizBox.innerHTML = `
+                <h3 class="quiz-question">In quale ambito soffri di più?</h3>
+                <div class="quiz-opt-grid">
+                    <button class="quiz-btn" onclick="showResult('filo')">Filosofia / Storia</button>
+                    <button class="quiz-btn" onclick="showResult('latino')">Latino / Greco</button>
+                    <button class="quiz-btn" onclick="showResult('tesi')">Scrittura / Tesi</button>
+                    <button class="quiz-btn" onclick="showResult('tutto')">Tutte le materie</button>
+                </div>
+            `;
+            progress.textContent = "Step 2/2";
+        };
+
+        const renderResult = (msg) => {
+            quizBox.innerHTML = `
+                <div style="text-align:center; padding: 2rem 0;">
+                    <h3 style="margin-bottom:1rem;">La Diagnosi</h3>
+                    <p style="font-size:1.1rem; line-height:1.6; margin-bottom:2rem;">${msg}</p>
+                    <a href="#" class="btn-primary" style="background:#fff; color:var(--col-teal); border:none;">Prenota la lezione</a>
+                </div>
+            `;
+            progress.textContent = "Completato";
+        };
+
+        window.handleStep1 = (val) => {
+            q1Answer = val;
+            const fb = document.getElementById('feedback');
+            
+            // Micro-feedback logic
+            let text = "Capisco. È frustrante.";
+            if(val === 'memoria') text = "La memoria fallisce quando manca la logica.";
+            if(val === 'ansia') text = "L'ansia è solo assenza di controllo.";
+            
+            fb.textContent = text;
+            fb.classList.add('feedback-visible');
+            
+            setTimeout(() => {
+                quizBox.style.opacity = 0;
+                setTimeout(() => {
+                    renderStep2();
+                    quizBox.style.opacity = 1;
+                }, 300);
+            }, 1200);
+        };
+
+        window.showResult = (val2) => {
+            let msg = "Il problema non sei tu, è il metodo. Costruiremo un sistema basato sulla comprensione logica per eliminare l'ansia e ridurre i tempi di studio.";
+            
+            if(q1Answer === 'memoria' && val2 === 'filo') msg = "In Filosofia la memoria non serve se non visualizzi i concetti. Sostituiremo la ripetizione con le mappe logiche.";
+            if(val2 === 'tesi') msg = "La scrittura è architettura. Inizieremo smontando le tue fonti per creare un indice solido. Il blocco sparirà con la struttura.";
+
+            quizBox.style.opacity = 0;
+            setTimeout(() => {
+                renderResult(msg);
+                quizBox.style.opacity = 1;
+            }, 300);
+        };
+
+        // Init Quiz
+        renderStep1();
+
+        // --- 4. STICKY BAR VISIBILITY ---
+        window.addEventListener('scroll', () => {
+            const bar = document.getElementById('stickyBar');
+            if(window.scrollY > 600) {
+                bar.classList.add('visible');
+            } else {
+                bar.classList.remove('visible');
+            }
+        });
+
+    </script>
+</body>
+</html>
