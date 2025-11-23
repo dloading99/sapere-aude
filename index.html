@@ -2,25 +2,23 @@
 <html lang="it" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dolores Lullo | Metodo di Studio e Filosofia</title>
-    
-    <!-- SEO base -->
-    <meta name="description" content="Dottoressa in Filosofia che aiuta studenti e genitori a costruire un metodo di studio personalizzato per elementari, medie, superiori e università.">
-    <meta property="og:title" content="Metodo di Studio e Filosofia | Dolores Lullo">
-    <meta property="og:description" content="Percorsi di metodo di studio e ripetizioni umanistiche con una Dottoressa in Filosofia.">
+
+    <meta name="description" content="Dolores Lullo, dottoressa in Filosofia, aiuta studenti e genitori a sbloccare metodo di studio, comprensione dei testi, ansia da verifiche e scrittura di temi, tesine e tesi. Prima sessione gratuita.">
+
+    <meta property="og:title" content="Metodo di Studio & Consulenza Filosofica - Dolores Lullo">
+    <meta property="og:description" content="Percorsi personalizzati per elementari, medie, superiori e università. Prima sessione gratuita, niente ripetizioni generiche.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="">
-    <meta property="og:image" content="">
-    
+
     <!-- Fonts: Playfair Display (Serif) & Inter (Sans) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
-    
+
     <!-- Tailwind CSS (via CDN per demo rapida) -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <!-- Alpine.js (per la logica interattiva) -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
@@ -50,8 +48,10 @@
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #FDF6EF; }
         ::-webkit-scrollbar-thumb { background: #F3B27C; border-radius: 4px; }
+
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
         [x-cloak] { display: none !important; }
     </style>
 </head>
@@ -64,8 +64,8 @@
             <div class="font-serif text-2xl font-bold tracking-tight text-petrol cursor-pointer" @click="window.scrollTo({top:0, behavior:'smooth'})">
                 Dolores Lullo<span class="text-coral">.</span>
             </div>
-            <a href="#diagnosi-info" class="hidden md:block text-sm font-medium uppercase tracking-widest hover:text-coral transition-colors">
-                Prenota una sessione
+            <a href="#colloquio" class="hidden md:block text-sm font-medium uppercase tracking-widest hover:text-coral transition-colors">
+                Prenota un colloquio
             </a>
         </div>
     </header>
@@ -75,6 +75,7 @@
 
         <!-- SEZIONE 1: HERO & RUOLO -->
         <section class="min-h-[90vh] flex flex-col justify-center items-center text-center px-6 relative overflow-hidden">
+            <!-- Decorazione astratta -->
             <div class="absolute top-1/4 left-10 w-64 h-64 bg-accent/10 rounded-full blur-3xl -z-10"></div>
             <div class="absolute bottom-1/4 right-10 w-80 h-80 bg-petrol/5 rounded-full blur-3xl -z-10"></div>
 
@@ -82,19 +83,19 @@
                 Il problema è capire… <br>
                 <span class="italic text-coral">o ricordare?</span>
             </h1>
-            
+
             <p class="text-lg md:text-xl text-petrol/80 max-w-2xl mx-auto mb-12 font-light">
                 Rispondi a poche domande e scopri se il blocco nello studio è nei contenuti, nel metodo o nella gestione dell’ansia.
             </p>
 
             <div class="flex flex-col md:flex-row gap-4 w-full max-w-lg">
-                <button 
+                <button
                     @click="setRole('genitore')"
                     :class="role === 'genitore' ? 'bg-petrol text-cream ring-4 ring-accent/30' : 'bg-white text-petrol border border-petrol/20 hover:border-coral hover:text-coral'"
                     class="flex-1 py-5 px-8 rounded-lg text-lg font-medium transition-all duration-300 shadow-sm">
                     Sono un Genitore
                 </button>
-                <button 
+                <button
                     @click="setRole('studente')"
                     :class="role === 'studente' ? 'bg-petrol text-cream ring-4 ring-accent/30' : 'bg-white text-petrol border border-petrol/20 hover:border-coral hover:text-coral'"
                     class="flex-1 py-5 px-8 rounded-lg text-lg font-medium transition-all duration-300 shadow-sm">
@@ -103,23 +104,23 @@
             </div>
         </section>
 
-        <!-- Contenitore dopo scelta ruolo -->
+        <!-- Contenitore che appare solo dopo aver scelto il ruolo -->
         <div x-show="role" x-transition:enter="transition ease-out duration-700" x-transition:enter-start="opacity-0 translate-y-10" x-transition:enter-end="opacity-100 translate-y-0">
 
             <!-- SEZIONE 2: DOVE TI BLOCCHI? -->
             <section id="step-blocks" class="py-20 md:py-32 px-6">
                 <div class="container mx-auto max-w-6xl grid md:grid-cols-2 gap-16 items-start">
-                    
+
                     <!-- Colonna Domande -->
                     <div>
                         <h2 class="font-serif text-4xl md:text-5xl mb-4 text-petrol">
-                            <span x-text="role === 'genitore' ? 'Dove si blocca di più tuo figlio nello studio?' : 'Dove ti blocchi di più quando studi?'"></span>
+                            <span x-text="role === 'genitore' ? 'Dove si blocca di più tuo figlio?' : 'Dove ti blocchi di più quando studi?'"></span>
                         </h2>
                         <p class="text-petrol/60 mb-8 uppercase tracking-widest text-sm font-semibold">Seleziona una o più opzioni</p>
-                        
+
                         <div class="flex flex-col gap-3">
                             <template x-for="item in blocksOptions" :key="item.id">
-                                <button 
+                                <button
                                     @click="toggleSelection('blocks', item.id)"
                                     :class="selectedBlocks.includes(item.id) ? 'bg-coral text-white border-coral shadow-lg scale-[1.02]' : 'bg-transparent border-petrol/30 text-petrol hover:border-coral hover:text-coral'"
                                     class="text-left py-4 px-6 rounded-full border transition-all duration-200 flex items-center justify-between group">
@@ -133,30 +134,32 @@
                     <!-- Colonna Insight Dinamico -->
                     <div class="sticky top-32 bg-white p-8 md:p-10 rounded-2xl shadow-xl border border-petrol/5 min-h-[300px] flex flex-col justify-center relative overflow-hidden">
                         <div class="absolute top-0 right-0 w-32 h-32 bg-accent/20 rounded-bl-full -z-0"></div>
-                        
-                        <template x-if="selectedBlocks.length === 0">
+
+                        <template x-if="!getCurrentBlockInfo()">
                             <div class="text-center text-petrol/50">
-                                <svg class="w-12 h-12 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <svg class="w-12 h-12 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
                                 <p>Seleziona un'opzione per vedere l'analisi.</p>
                             </div>
                         </template>
 
-                        <template x-if="selectedBlocks.length > 0">
+                        <template x-if="getCurrentBlockInfo()">
                             <div class="relative z-10" x-transition.opacity>
                                 <span class="text-xs font-bold tracking-widest text-coral uppercase mb-2 block">Cosa succede di solito</span>
-                                <h3 class="font-serif text-2xl mb-4 text-petrol" x-text="getBlocksInfo()?.title || ''"></h3>
+                                <h3 class="font-serif text-2xl mb-4 text-petrol" x-text="getCurrentBlockInfo().title"></h3>
                                 <ul class="space-y-2 mb-8">
-                                    <template x-for="point in getBlocksSymptoms()" :key="point">
+                                    <template x-for="point in getCurrentBlockInfo().symptoms" :key="point">
                                         <li class="flex items-start gap-3 text-petrol/80">
                                             <span class="text-coral mt-1.5 text-xs">●</span>
                                             <span x-text="point"></span>
                                         </li>
                                     </template>
                                 </ul>
-                                
+
                                 <div class="border-t border-petrol/10 pt-6">
                                     <span class="text-xs font-bold tracking-widest text-petrol/60 uppercase mb-2 block">Il mio intervento</span>
-                                    <p class="text-petrol italic font-serif text-lg leading-relaxed" x-text="getInterventionText()"></p>
+                                    <p class="text-petrol italic font-serif text-lg leading-relaxed" x-text="getCurrentBlockInfo().solution"></p>
                                 </div>
                             </div>
                         </template>
@@ -165,7 +168,7 @@
                 </div>
             </section>
 
-            <!-- SEZIONE 3: TENTATIVI -->
+            <!-- SEZIONE 3: TENTATIVI FALLITI -->
             <section class="py-20 bg-surface border-y border-petrol/5">
                 <div class="container mx-auto max-w-4xl px-6 text-center">
                     <h2 class="font-serif text-3xl md:text-4xl mb-10 text-petrol">
@@ -173,21 +176,23 @@
                     </h2>
 
                     <div class="flex flex-wrap justify-center gap-3 mb-12">
-                        <template x-for="attempt in attemptsOptions" :key="attempt.code">
-                            <button 
-                                @click="toggleSelection('attempts', attempt.code)"
-                                :class="selectedAttempts.includes(attempt.code) ? 'bg-petrol text-white border-petrol' : 'bg-white border-petrol/20 text-petrol/70 hover:border-petrol hover:text-petrol'"
+                        <template x-for="attempt in attemptsOptions" :key="attempt.id">
+                            <button
+                                @click="toggleSelection('attempts', attempt.id)"
+                                :class="selectedAttempts.includes(attempt.id) ? 'bg-petrol text-white border-petrol' : 'bg-white border-petrol/20 text-petrol/70 hover:border-petrol hover:text-petrol'"
                                 class="py-3 px-6 rounded-full border transition-all duration-200 font-medium">
                                 <span x-text="attempt.label"></span>
                             </button>
                         </template>
                     </div>
 
-                    <!-- Copy reattivo -->
-                    <div class="bg-cream p-8 rounded-xl border border-petrol/10 max-w-2xl mx-auto" x-show="selectedAttempts.length > 0" x-transition>
-                        <span class="text-xs font-bold tracking-widest text-coral uppercase mb-2 block">Che cosa significa in pratica</span>
-                        <h3 class="font-serif text-2xl mb-4 text-petrol" x-text="getAttemptsInfo()?.title || ''"></h3>
-                        <p class="text-lg font-serif italic text-petrol" x-text="getAttemptsText()"></p>
+                    <div class="bg-cream p-8 rounded-xl border border-petrol/10 max-w-2xl mx-auto"
+                         x-show="getAttemptsInfo()"
+                         x-transition>
+                        <span class="text-xs font-bold tracking-widest text-coral uppercase mb-2 block">
+                            Che cosa significa in pratica
+                        </span>
+                        <p class="text-lg font-serif italic text-petrol" x-text="getAttemptsInfo().text"></p>
                     </div>
                 </div>
             </section>
@@ -201,7 +206,7 @@
 
                     <div class="grid md:grid-cols-2 gap-4">
                         <template x-for="goal in goalsOptions" :key="goal.id">
-                            <button 
+                            <button
                                 @click="toggleSelection('goals', goal.id)"
                                 :class="selectedGoals.includes(goal.id) ? 'bg-accent/20 border-accent' : 'bg-white border-petrol/10 hover:border-accent'"
                                 class="text-left p-6 rounded-xl border transition-all duration-200 h-full flex flex-col justify-between group hover:shadow-md">
@@ -224,11 +229,8 @@
 
                 <div class="container mx-auto max-w-6xl relative z-10">
                     <div class="text-center mb-16">
-                        <h2 class="font-serif text-4xl md:text-6xl mb-6 text-surface">
-                            Non faccio solo ripetizioni. <br> 
-                            <span class="text-accent italic">Alleno il modo di pensare.</span>
-                        </h2>
-                        <p class="text-xl text-cream/80 max-w-2xl mx-auto font-light" 
+                        <h2 class="font-serif text-4xl md:text-6xl mb-6 text-surface">Non faccio solo ripetizioni. <br> <span class="text-accent italic">Alleno il modo di pensare.</span></h2>
+                        <p class="text-xl text-cream/80 max-w-2xl mx-auto font-light"
                            x-text="role === 'genitore' ? 'Così tuo figlio non impara solo la lezione di domani, ma un metodo che resta.' : 'Così non vivi più col panico di dimenticare tutto dopo l’esame.'"></p>
                     </div>
 
@@ -265,7 +267,6 @@
                     </div>
 
                     <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        <!-- ELEMENTARI -->
                         <div class="bg-white p-8 rounded-xl shadow-sm border border-petrol/5 hover:border-coral/30 transition-all group flex flex-col">
                             <span class="text-xs font-bold tracking-widest text-petrol/40 mb-4">ELEMENTARI</span>
                             <h3 class="font-serif text-2xl text-petrol mb-2 group-hover:text-coral transition-colors">Basi solide e fiducia</h3>
@@ -275,27 +276,21 @@
                                 <li>• Lettura e comprensione</li>
                                 <li>• Approccio ludico e curioso</li>
                             </ul>
-                            <button @click="selectLevel('Elementari')" class="w-full py-3 text-sm font-bold border border-petrol/20 rounded hover:bg-petrol hover:text-white transition-colors">
-                                Mi interessa Elementari
-                            </button>
+                            <button @click="selectLevel('Elementari')" class="w-full py-3 text-sm font-bold border border-petrol/20 rounded hover:bg-petrol hover:text-white transition-colors">Mi interessa Elementari</button>
                         </div>
 
-                        <!-- MEDIE -->
                         <div class="bg-white p-8 rounded-xl shadow-sm border border-petrol/5 hover:border-coral/30 transition-all group flex flex-col">
                             <span class="text-xs font-bold tracking-widest text-petrol/40 mb-4">MEDIE</span>
-                            <h3 class="font-serif text-2xl text-petrol mb-2 group-hover:text-coral transition-colors">Dal 'memoria' al 'capisco'</h3>
+                            <h3 class="font-serif text-2xl text-petrol mb-2 group-hover:text-coral transition-colors">Dal "memoria" al "capisco"</h3>
                             <p class="text-sm text-petrol/60 italic mb-6">"Fa fatica con testi lunghi e sintesi."</p>
                             <ul class="text-sm text-petrol/80 space-y-2 mb-8 flex-grow">
                                 <li>• Materie umanistiche</li>
                                 <li>• Metodo di studio autonomo</li>
                                 <li>• Analisi e sintesi testi</li>
                             </ul>
-                            <button @click="selectLevel('Medie')" class="w-full py-3 text-sm font-bold border border-petrol/20 rounded hover:bg-petrol hover:text-white transition-colors">
-                                Mi interessa Medie
-                            </button>
+                            <button @click="selectLevel('Medie')" class="w-full py-3 text-sm font-bold border border-petrol/20 rounded hover:bg-petrol hover:text-white transition-colors">Mi interessa Medie</button>
                         </div>
 
-                        <!-- SUPERIORI -->
                         <div class="bg-white p-8 rounded-xl shadow-sm border border-petrol/5 hover:border-coral/30 transition-all group flex flex-col">
                             <span class="text-xs font-bold tracking-widest text-petrol/40 mb-4">SUPERIORI</span>
                             <h3 class="font-serif text-2xl text-petrol mb-2 group-hover:text-coral transition-colors">Maturità senza naufragare</h3>
@@ -305,12 +300,9 @@
                                 <li>• Preparazione esami/tesine</li>
                                 <li>• Logica e argomentazione</li>
                             </ul>
-                            <button @click="selectLevel('Superiori')" class="w-full py-3 text-sm font-bold border border-petrol/20 rounded hover:bg-petrol hover:text-white transition-colors">
-                                Mi interessa Superiori
-                            </button>
+                            <button @click="selectLevel('Superiori')" class="w-full py-3 text-sm font-bold border border-petrol/20 rounded hover:bg-petrol hover:text-white transition-colors">Mi interessa Superiori</button>
                         </div>
 
-                        <!-- UNIVERSITÀ -->
                         <div class="bg-white p-8 rounded-xl shadow-sm border border-petrol/5 hover:border-coral/30 transition-all group flex flex-col">
                             <span class="text-xs font-bold tracking-widest text-petrol/40 mb-4">UNIVERSITÀ</span>
                             <h3 class="font-serif text-2xl text-petrol mb-2 group-hover:text-coral transition-colors">Esami e Tesi sbloccati</h3>
@@ -320,86 +312,94 @@
                                 <li>• Supporto scrittura Tesi</li>
                                 <li>• Approfondimento critico</li>
                             </ul>
-                            <button @click="selectLevel('Università')" class="w-full py-3 text-sm font-bold border border-petrol/20 rounded hover:bg-petrol hover:text-white transition-colors">
-                                Mi interessa Uni
-                            </button>
+                            <button @click="selectLevel('Università')" class="w-full py-3 text-sm font-bold border border-petrol/20 rounded hover:bg-petrol hover:text-white transition-colors">Mi interessa Uni</button>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- SEZIONE 7: CHECKLIST SESSIONE -->
-            <section id="diagnosi-info" class="py-20 bg-surface border-t border-petrol/10 px-6">
+            <!-- SEZIONE 7: PRIMA SESSIONE -->
+            <section id="colloquio-info" class="py-20 bg-surface border-t border-petrol/10 px-6">
                 <div class="container mx-auto max-w-4xl text-center">
-                    <h2 class="font-serif text-3xl md:text-5xl mb-12 text-petrol">
-                        La prima sessione è gratuita,<br> ma non è una chiacchierata a caso.
-                    </h2>
-                    
+                    <h2 class="font-serif text-3xl md:text-5xl mb-12 text-petrol">La prima sessione è gratuita,<br> ma non è una chiacchierata a caso.</h2>
+
                     <div class="grid md:grid-cols-2 gap-8 text-left max-w-3xl mx-auto mb-12">
                         <div class="flex gap-4">
                             <div class="w-10 h-10 rounded-full bg-coral/10 flex items-center justify-center text-coral shrink-0">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                                </svg>
                             </div>
                             <div>
                                 <h4 class="font-bold text-petrol">Analisi reale</h4>
-                                <p class="text-petrol/70 text-sm">Guardiamo voti, tempi e difficoltà concrete.</p>
+                                <p class="text-petrol/70 text-sm">Guardiamo voti, tempi e difficoltà concrete, non solo “è portato/non è portato”.</p>
                             </div>
                         </div>
                         <div class="flex gap-4">
                             <div class="w-10 h-10 rounded-full bg-coral/10 flex items-center justify-center text-coral shrink-0">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                </svg>
                             </div>
                             <div>
                                 <h4 class="font-bold text-petrol">Test sul campo</h4>
-                                <p class="text-petrol/70 text-sm">Ti vedo affrontare un testo o un esercizio in diretta.</p>
+                                <p class="text-petrol/70 text-sm">Ti vedo affrontare un testo o un esercizio in diretta, per capire dove si rompe il filo.</p>
                             </div>
                         </div>
                         <div class="flex gap-4">
                             <div class="w-10 h-10 rounded-full bg-coral/10 flex items-center justify-center text-coral shrink-0">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                                </svg>
                             </div>
                             <div>
                                 <h4 class="font-bold text-petrol">Intervento pratico</h4>
-                                <p class="text-petrol/70 text-sm">Lavoriamo subito su un blocco specifico.</p>
+                                <p class="text-petrol/70 text-sm">Non restiamo a parlare in astratto: lavoriamo subito su un blocco concreto.</p>
                             </div>
                         </div>
                         <div class="flex gap-4">
                             <div class="w-10 h-10 rounded-full bg-coral/10 flex items-center justify-center text-coral shrink-0">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
                             </div>
                             <div>
                                 <h4 class="font-bold text-petrol">Mini-piano</h4>
-                                <p class="text-petrol/70 text-sm">Definiamo obiettivi realistici e durata del percorso.</p>
+                                <p class="text-petrol/70 text-sm">Usciamo con una proposta di percorso, durata indicativa e obiettivi chiari.</p>
                             </div>
                         </div>
                     </div>
-                    
+
                     <button @click="scrollToForm()" class="bg-coral text-white py-4 px-10 rounded-lg text-xl font-medium shadow-lg hover:bg-coralHover hover:-translate-y-1 transition-all">
-                        Prenota la tua sessione gratuita
+                        Prenota il primo colloquio
                     </button>
                 </div>
             </section>
 
             <!-- SEZIONE 8: FORM FINALE -->
-            <section id="diagnosi" class="py-24 px-6 bg-white">
+            <section id="colloquio" class="py-24 px-6 bg-white">
                 <div class="container mx-auto max-w-2xl">
                     <div class="text-center mb-10">
                         <h2 class="font-serif text-4xl text-petrol mb-4">Parlami del tuo caso in 60 secondi.</h2>
-                        <p class="text-petrol/60">Alcuni campi sono già compilati in base alle tue risposte. Puoi aggiungere dettagli dove preferisci.</p>
+                        <p class="text-petrol/60">I campi sono in parte già compilati in base alle tue risposte.</p>
                     </div>
 
                     <form class="space-y-6" @submit.prevent="submitForm">
-                        <input type="hidden" name="ruolo" :value="role === 'genitore' ? 'Genitore' : 'Studente'">
-
                         <div class="grid md:grid-cols-2 gap-6">
                             <div>
                                 <label class="block text-xs font-bold uppercase text-petrol/50 mb-1">Chi sei</label>
-                                <input type="text" :value="role === 'genitore' ? 'Genitore' : 'Studente'" disabled class="w-full p-3 bg-cream border border-petrol/10 rounded text-petrol font-medium cursor-not-allowed">
+                                <input type="text"
+                                       :value="role === 'genitore' ? 'Genitore' : 'Studente'"
+                                       disabled
+                                       class="w-full p-3 bg-cream border border-petrol/10 rounded text-petrol font-medium cursor-not-allowed">
                             </div>
-                            
+
                             <div>
-                                <label class="block text-xs font-bold uppercase text-petrol/50 mb-1">Livello Scolastico</label>
-                                <select x-model="selectedLevel" name="livello" class="w-full p-3 bg-surface border border-petrol/20 rounded text-petrol focus:border-coral focus:ring-1 focus:ring-coral outline-none">
+                                <label class="block text-xs font-bold uppercase text-petrol/50 mb-1">Livello scolastico</label>
+                                <select x-model="selectedLevel"
+                                        name="livello"
+                                        class="w-full p-3 bg-surface border border-petrol/20 rounded text-petrol focus:border-coral focus:ring-1 focus:ring-coral outline-none">
                                     <option value="">Seleziona livello...</option>
                                     <option value="Elementari">Elementari</option>
                                     <option value="Medie">Medie</option>
@@ -411,7 +411,11 @@
 
                         <div>
                             <label class="block text-xs font-bold uppercase text-petrol/50 mb-1">Principali difficoltà</label>
-                            <textarea rows="3" x-model="formProblems" name="difficolta" class="w-full p-3 bg-surface border border-petrol/20 rounded text-petrol focus:border-coral focus:ring-1 focus:ring-coral outline-none placeholder-petrol/30" placeholder="Es. Capire i testi, organizzare il tempo..."></textarea>
+                            <textarea rows="3"
+                                      name="difficolta"
+                                      x-model="formProblems"
+                                      class="w-full p-3 bg-surface border border-petrol/20 rounded text-petrol focus:border-coral focus:ring-1 focus:ring-coral outline-none placeholder-petrol/30"
+                                      placeholder="Es. Capire i testi di filosofia, organizzare il tempo tra studio e sport..."></textarea>
                             <p class="text-xs text-petrol/40 mt-1 text-right">
                                 Testo suggerito dalle tue scelte. Se vuoi, aggiungi materia, classe/anno ed esempi concreti delle difficoltà.
                             </p>
@@ -419,49 +423,61 @@
 
                         <div>
                             <label class="block text-xs font-bold uppercase text-petrol/50 mb-1">Obiettivo principale</label>
-                            <input type="text" x-model="formGoal" name="obiettivo" class="w-full p-3 bg-surface border border-petrol/20 rounded text-petrol focus:border-coral focus:ring-1 focus:ring-coral outline-none" placeholder="Es. Voti più stabili, preparare la maturità, concludere la tesi...">
+                            <input type="text"
+                                   name="obiettivo"
+                                   x-model="formGoal"
+                                   class="w-full p-3 bg-surface border border-petrol/20 rounded text-petrol focus:border-coral focus:ring-1 focus:ring-coral outline-none"
+                                   placeholder="Es. Voti più stabili, affrontare le verifiche senza panico, chiudere la tesi...">
                         </div>
 
                         <div class="grid md:grid-cols-2 gap-6">
                             <div>
                                 <label class="block text-xs font-bold uppercase text-petrol/50 mb-1">Nome</label>
-                                <input type="text" name="nome" required class="w-full p-3 bg-surface border border-petrol/20 rounded text-petrol focus:border-coral focus:ring-1 focus:ring-coral outline-none">
+                                <input type="text"
+                                       name="nome"
+                                       required
+                                       class="w-full p-3 bg-surface border border-petrol/20 rounded text-petrol focus:border-coral focus:ring-1 focus:ring-coral outline-none">
                             </div>
                             <div>
-                                <label class="block text-xs font-bold uppercase text-petrol/50 mb-1">Email o Telefono</label>
-                                <input type="text" name="contatto" required class="w-full p-3 bg-surface border border-petrol/20 rounded text-petrol focus:border-coral focus:ring-1 focus:ring-coral outline-none">
+                                <label class="block text-xs font-bold uppercase text-petrol/50 mb-1">Email o telefono</label>
+                                <input type="text"
+                                       name="contatto"
+                                       required
+                                       class="w-full p-3 bg-surface border border-petrol/20 rounded text-petrol focus:border-coral focus:ring-1 focus:ring-coral outline-none">
                             </div>
                         </div>
 
                         <button type="submit" class="w-full bg-petrol text-white py-4 rounded-lg font-medium text-lg hover:bg-petrol/90 transition-all shadow-lg mt-4">
-                            Invia richiesta di sessione
+                            Invia richiesta di colloquio
                         </button>
                     </form>
 
                     <div class="mt-12 text-center pt-10 border-t border-petrol/10">
                         <p class="mb-4 text-petrol/70">Preferisci scrivermi direttamente?</p>
                         <a :href="whatsappLink" target="_blank" class="inline-flex items-center gap-2 text-green-600 font-bold hover:underline text-lg">
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.463 1.065 2.876 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.463 1.065 2.876 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+                            </svg>
                             Scrivimi su WhatsApp
                         </a>
                     </div>
                 </div>
             </section>
         </div>
-        
+
         <!-- STICKY CTA -->
-        <div x-show="showStickyCTA && role" 
+        <div x-show="showStickyCTA && role"
              x-transition:enter="transition ease-out duration-300"
              x-transition:enter-start="opacity-0 translate-y-20"
              x-transition:enter-end="opacity-100 translate-y-0"
              class="fixed bottom-6 right-6 z-40 flex flex-col items-end">
-            
+
             <div x-show="selectedBlocks.length > 0" class="bg-petrol text-white text-xs py-1 px-3 rounded-t-lg mb-0 shadow-lg w-fit max-w-[220px] truncate">
                 Focus: <span x-text="getStickySummary()"></span>
             </div>
 
             <button @click="scrollToForm()" class="bg-coral hover:bg-coralHover text-white font-bold py-3 px-6 rounded-l-xl rounded-br-xl shadow-2xl flex items-center gap-3 transition-all hover:scale-105">
-                <span>Prenota una sessione</span>
+                <span>Prenota un colloquio</span>
                 <span class="text-xs font-normal opacity-80 block" x-text="role === 'genitore' ? 'per tuo figlio' : 'per il tuo studio'"></span>
             </button>
         </div>
@@ -478,7 +494,7 @@
     <script>
         function studyMethodApp() {
             return {
-                role: null,
+                role: null, // 'genitore' | 'studente'
                 selectedBlocks: [],
                 selectedAttempts: [],
                 selectedGoals: [],
@@ -487,6 +503,11 @@
                 formProblems: '',
                 formGoal: '',
 
+                // Ordine canonico per le combinazioni
+                blocksOrder: ['capire', 'organizzare', 'verifiche', 'scrivere'],
+                attemptsOrder: ['R', 'S', 'H', 'N'],
+
+                // Opzioni blocchi
                 blocksOptions: [
                     { id: 'capire', label: 'Capire i testi complessi' },
                     { id: 'organizzare', label: 'Organizzare tempo e compiti' },
@@ -494,260 +515,278 @@
                     { id: 'scrivere', label: 'Scrivere (temi, tesi, tesine)' }
                 ],
 
-                // 15 combinazioni blocchi
-                blocksCombos: {
+                // Testi per i singoli blocchi
+                blocksInfo: {
                     'capire': {
-                        title: 'Difficoltà di comprensione dei testi',
+                        titleParent: 'Fa fatica a capire ciò che legge',
+                        titleStudent: 'Faccio fatica a capire ciò che leggo',
                         symptomsParent: [
-                            'Legge il testo ma non riesce a raccontarlo con parole sue.',
-                            'Si ferma spesso, perde il filo e si concentra su dettagli irrilevanti.',
-                            'Ha bisogno che qualcuno gli rispieghi tutto a voce per capire davvero.'
+                            'Legge ma non riesce a spiegare davvero con parole sue.',
+                            'Si perde nei dettagli e non trova mai il centro del discorso.',
+                            'Arriva alla fine del paragrafo con la sensazione di non aver capito quasi nulla.'
                         ],
                         symptomsStudent: [
-                            'Leggi il testo ma fai fatica a spiegare con parole tue cosa hai letto.',
-                            'Ti fermi spesso, perdi il filo e ti incastri sui dettagli meno importanti.',
-                            'Hai bisogno che qualcuno ti rispieghi tutto a voce per sentirti sicuro di aver capito.'
+                            'Leggi ma fai fatica a spiegare quello che hai letto con parole tue.',
+                            'Ti perdi nei dettagli e non riesci a capire qual è il punto davvero importante.',
+                            'Arrivi alla fine del paragrafo con la sensazione di non aver capito quasi nulla.'
                         ]
                     },
                     'organizzare': {
-                        title: "Caos nell'organizzazione dello studio",
+                        titleParent: 'Studia tanto ma resta sempre indietro',
+                        titleStudent: 'Studio tanto ma ho la sensazione di essere sempre indietro',
                         symptomsParent: [
-                            'Rimanda spesso i compiti e finisce per studiare all’ultimo momento.',
-                            'Non sa da dove iniziare: apre il diario, si perde e si blocca.',
-                            'Passa molto tempo “sui libri” ma con poco risultato concreto.'
+                            'Si mette a studiare tardi e cambia continuamente materia senza una logica.',
+                            'Passa ore sui libri ma non sa dire cosa ha davvero concluso.',
+                            'Compiti, verifiche e scadenze arrivano addosso all’ultimo minuto.'
                         ],
                         symptomsStudent: [
-                            'Rimandi spesso e ti ritrovi a studiare tutto all’ultimo minuto.',
-                            'Apri il diario o la piattaforma e non sai da dove iniziare davvero.',
-                            'Passi tanto tempo a “stare sui libri” ma alla fine ricordi poco e ti senti inconcludente.'
+                            'Ti metti a studiare tardi e cambi materia in continuazione senza una vera logica.',
+                            'Passi ore sui libri ma alla fine non sai dire cosa hai davvero concluso.',
+                            'Compiti, verifiche e scadenze ti arrivano addosso sempre all’ultimo minuto.'
                         ]
                     },
                     'verifiche': {
-                        title: 'Preparazione superficiale e ansia da verifica',
+                        titleParent: 'A casa sa le cose, davanti al professore si blocca',
+                        titleStudent: 'A casa so le cose, davanti al professore mi blocco',
                         symptomsParent: [
-                            'A casa sembra preparato, ma in verifica o all’interrogazione si blocca.',
-                            'Studia tanto, ma in modo disordinato: ripassa senza una strategia chiara.',
-                            'Prima delle verifiche aumenta l’ansia e a volte chiede di non andare a scuola.'
+                            'A casa sembra preparato, ma in verifica va nel pallone.',
+                            'Ha blackout improvvisi proprio quando deve dimostrare ciò che sa.',
+                            'Le verifiche e le interrogazioni diventano un momento di panico più che di verifica reale.'
                         ],
                         symptomsStudent: [
-                            'A casa ti sembra di sapere, ma davanti al prof o al compito ti si svuota la testa.',
-                            'Studi tanto, ma ripassi in modo casuale, senza una strategia precisa.',
-                            'Prima delle verifiche senti salire l’ansia e faresti volentieri a meno di presentarti.'
+                            'A casa ti sembra di sapere le cose, ma in verifica ti blocchi.',
+                            'Ti capita il vuoto di memoria proprio quando dovresti dimostrare quello che sai.',
+                            'Verifiche e interrogazioni ti mettono più in ansia che altro, anche quando hai studiato.'
                         ]
                     },
                     'scrivere': {
-                        title: 'Blocchi nella scrittura e confusione nelle idee',
+                        titleParent: 'Blocco davanti al foglio: sa le cose ma non sa “metterle giù”',
+                        titleStudent: 'Blocco davanti al foglio: so le cose ma non riesco a scriverle',
                         symptomsParent: [
-                            'Davanti al foglio si blocca e non sa come iniziare.',
-                            'Quando scrive, le frasi sono lunghe, confuse e difficili da seguire.',
-                            'Fa fatica a organizzare le idee in un discorso con inizio, sviluppo e conclusione.'
+                            'Davanti al foglio bianco non sa da dove partire.',
+                            'Le frasi escono contorte, ripetitive o poco chiare.',
+                            'I testi risultano lunghi ma poco strutturati, con idee messe in fila senza ordine.'
                         ],
                         symptomsStudent: [
-                            'Davanti al foglio ti blocchi e non sai da dove cominciare.',
-                            'Quando scrivi, le frasi diventano lunghe, contorte e poco chiare.',
-                            'Fai fatica a mettere in ordine le idee e costruire un discorso che abbia un filo logico.'
+                            'Davanti al foglio bianco non sai da dove partire.',
+                            'Le frasi ti escono contorte, ripetitive o poco chiare.',
+                            'I testi diventano lunghi ma con le idee messe un po’ a caso, senza una vera struttura.'
                         ]
-                    },
+                    }
+                },
+
+                // Testi per combinazioni di blocchi (AB, AC, AD, BC, BD, CD, ABC, ABD, ACD, BCD, ABCD)
+                blocksInfoCombinations: {
+                    // Doppie
                     'capire_organizzare': {
-                        title: 'Studia tanto, capisce poco e si perde nel caos',
+                        titleParent: 'Studia tanto, capisce poco e si perde nel caos',
+                        titleStudent: 'Studio tanto, capisco poco e mi perdo nel caos',
                         symptomsParent: [
-                            'Fa fatica a capire i testi e questo lo porta a rallentare su tutto il resto.',
-                            'Perde tempo su poche pagine, poi si accorge di essere indietro con il resto dei compiti.',
+                            'Fa fatica a capire i testi e questo lo rallenta su tutto il resto.',
+                            'Perde tempo su poche pagine e poi si accorge di essere indietro con il resto dei compiti.',
                             'Alterna momenti di iper-sforzo a momenti di blocco totale, senza un piano che lo aiuti.'
                         ],
                         symptomsStudent: [
-                            'Fai fatica a capire ciò che leggi e questo ti fa rallentare su tutto.',
-                            'Resti bloccato su poche pagine e poi ti accorgi che hai lasciato indietro il resto.',
+                            'Fai fatica a capire ciò che leggi e questo ti rallenta su tutto.',
+                            'Rimani bloccato su poche pagine e poi ti accorgi di aver lasciato indietro il resto.',
                             'Alterni giornate in cui ti sforzi tantissimo ad altre in cui ti blocchi, perché non hai un piano chiaro.'
                         ]
                     },
                     'capire_verifiche': {
-                        title: 'Studia tanto ma in verifica non regge il livello dei testi',
+                        titleParent: 'Non capisce a fondo e in verifica crolla',
+                        titleStudent: 'Non capisco davvero e in verifica crollo',
                         symptomsParent: [
-                            'I testi del libro o delle fotocopie sono troppo densi: li legge ma non li domina.',
-                            'In verifica o all’interrogazione, quando le domande partono dal testo, si confonde facilmente.',
-                            "Ha l’impressione di non essere all’altezza di quel livello di difficoltà, anche se si impegna."
+                            'Studia i testi “a memoria” perché non li afferra fino in fondo.',
+                            'In verifica, appena cambia la domanda, va in confusione.',
+                            'Più aumentano le richieste di ragionamento, più i voti oscillano.'
                         ],
                         symptomsStudent: [
-                            'I testi che devi studiare ti sembrano troppo densi: li leggi ma non ci prendi veramente confidenza.',
-                            'In verifica o all’orale, quando le domande partono dal testo, ti confondi e non sai dove agganciarti.',
-                            'Hai la sensazione di non essere al livello giusto, anche se ti impegni un sacco.'
+                            'Ti ritrovi spesso a studiare i testi quasi “a memoria” perché non li afferri davvero.',
+                            'In verifica, se la domanda è diversa da come l’avevi immaginata, vai in confusione.',
+                            'Quando serve ragionare e non solo ripetere, ti sembra che il terreno ti manchi sotto i piedi.'
                         ]
                     },
                     'capire_scrivere': {
-                        title: 'Capisce pezzi sparsi ma non riesce a trasformarli in un testo chiaro',
+                        titleParent: 'Capisce a metà e scrive in modo confuso',
+                        titleStudent: 'Capisco a metà e scrivo in modo confuso',
                         symptomsParent: [
-                            'Coglie alcune parti del testo ma non riesce a costruire un discorso coerente.',
-                            'Quando deve scrivere, mette insieme frasi scollegate, come se mancasse il filo centrale.',
-                            'Fa fatica a passare dalla lettura alla scrittura: ciò che ha capito non si traduce in un elaborato solido.'
+                            'Ha un’idea generale degli argomenti ma non sa organizzarli in un discorso scritto.',
+                            'I testi risultano pieni di frasi “giuste” ma poco collegate tra loro.',
+                            'Temi, relazioni e tesine vengono percepite come montagne impossibili da scalare.'
                         ],
                         symptomsStudent: [
-                            'Capisci pezzi del testo, ma ti sfugge l’idea centrale da cui partire.',
-                            'Quando inizi a scrivere, le frasi risultano scollegate e non rendono davvero ciò che hai capito.',
-                            'Ti sembra di avere le informazioni in testa, ma non riesci a trasformarle in un testo chiaro e strutturato.'
+                            'Hai un’idea generale degli argomenti ma fai fatica a trasformarla in un testo chiaro.',
+                            'Metti giù frasi che sembrano giuste ma non sai bene come collegarle tra loro.',
+                            'Temi, relazioni e tesine ti sembrano montagne impossibili da scalare.'
                         ]
                     },
                     'organizzare_verifiche': {
-                        title: 'Studio a singhiozzo e verifiche vissute come emergenze',
+                        titleParent: 'Studia a ondate e arriva stremato alle verifiche',
+                        titleStudent: 'Studio a ondate e arrivo stremato alle verifiche',
                         symptomsParent: [
-                            'Non pianifica lo studio: si muove solo quando arriva la verifica.',
-                            'Accuma pagine e materie, poi prova a recuperare tutto in pochissimo tempo.',
-                            'Arriva agli esami stanco, agitato e con la sensazione di non aver studiato in modo serio.'
+                            'Parte tardi con lo studio e arriva alle verifiche con maratone dell’ultimo minuto.',
+                            'Fa nottate sui libri ma il giorno dopo è stanco e meno lucido.',
+                            'Ogni verifica diventa un’emergenza, non la conseguenza naturale di uno studio continuo.'
                         ],
                         symptomsStudent: [
-                            'Non programmi lo studio: ti muovi solo quando vedi una verifica avvicinarsi.',
-                            'Accumi argomenti e poi cerchi di recuperarli tutti insieme all’ultimo momento.',
-                            'Arrivi agli esami stanco, agitato e con la sensazione di non aver costruito basi solide.'
+                            'Ti riduci spesso all’ultimo e arrivi alle verifiche dopo maratone di studio.',
+                            'Fai tardi la sera per studiare e il giorno dopo sei stanco e meno lucido.',
+                            'Ogni verifica diventa un’emergenza invece che il risultato di uno studio continuo.'
                         ]
                     },
                     'organizzare_scrivere': {
-                        title: 'Scrittura sempre rimandata e gestita all’ultimo',
+                        titleParent: 'Troppe cose da gestire, scrittura sempre in ritardo',
+                        titleStudent: 'Ho troppe cose da gestire e mi riduco sempre all’ultimo per scrivere',
                         symptomsParent: [
-                            'Rimanda i compiti di scrittura fino all’ultimo, poi si stressa per consegnare in tempo.',
-                            'Non spezza il lavoro in fasi (idee, scaletta, bozza): cerca di fare tutto in una volta sola.',
-                            "Il risultato è un testo confuso, con correzioni dell’ultimo minuto e poca revisione vera."
+                            'Rimanda continuamente i compiti scritti perché richiedono più energia mentale.',
+                            'Si ritrova a scrivere all’ultimo momento testi che richiederebbero tempo per essere pensati.',
+                            'L’ansia cresce perché tutto ciò che è scritto sembra “troppo impegnativo”.'
                         ],
                         symptomsStudent: [
-                            'Rimandi i temi, le tesine o la tesi finché non sei costretto a metterci mano.',
-                            'Cerchi di fare tutto in un’unica sessione: pensare, scrivere e correggere insieme.',
-                            'Quello che consegni spesso non rispecchia quanto vali davvero, perché il processo è confuso e affrettato.'
+                            'Rimandi spesso i compiti scritti perché ti richiedono più fatica mentale.',
+                            'Finisci per scrivere all’ultimo cose che avrebbero bisogno di tempo per essere pensate.',
+                            'Ti sembra che tutto ciò che è scritto sia “troppo impegnativo” e questo aumenta l’ansia.'
                         ]
                     },
                     'verifiche_scrivere': {
-                        title: 'Sa le cose “a voce”, ma si blocca quando deve metterle per iscritto',
+                        titleParent: 'Sa ma non riesce a dimostrarlo, né oralmente né per iscritto',
+                        titleStudent: 'So le cose, ma non riesco a dimostrarlo né a voce né per iscritto',
                         symptomsParent: [
-                            'Quando ripassa oralmente sembra preparato, ma appena deve scrivere va in difficoltà.',
-                            'In verifica scritta non riesce a esprimere la stessa chiarezza che mostra parlando.',
-                            'Spesso prende voti più bassi nelle prove scritte rispetto alle interrogazioni.'
+                            'In verifica orale si blocca, nello scritto non riesce a strutturare il discorso.',
+                            'Il voto non riflette mai davvero la quantità di studio.',
+                            'Ogni prova sembra un giudizio sulla persona più che sul lavoro fatto.'
                         ],
                         symptomsStudent: [
-                            'Quando ripassi a voce ti sembra di sapere, ma appena devi scrivere ti blocchi.',
-                            'Nei compiti scritti non riesci a esprimere con la stessa chiarezza quello che diresti parlando.',
-                            'I voti delle prove scritte sono spesso più bassi rispetto alle interrogazioni orali.'
+                            'All’orale ti blocchi, nello scritto fai fatica a strutturare le idee.',
+                            'Hai spesso la sensazione che il voto non rappresenti quanto hai studiato.',
+                            'Ogni prova ti sembra un giudizio su di te, più che sul lavoro che hai fatto.'
                         ]
                     },
+
+                    // Triple
                     'capire_organizzare_verifiche': {
-                        title: 'Studia tanto ma resta indietro e arriva alla verifica senza sicurezza',
+                        titleParent: 'Studia tanto, capisce a metà e alle verifiche crolla',
+                        titleStudent: 'Studio tanto, capisco a metà e alle verifiche crollo',
                         symptomsParent: [
-                            'Fa fatica a capire i testi, perciò ci mette molto più tempo degli altri a studiare.',
-                            'Non avendo un piano, si ritrova spesso indietro con il programma rispetto alle verifiche.',
-                            'Arriva agli esami con la sensazione di aver corso dietro alle scadenze, senza aver consolidato davvero ciò che serve.'
+                            'Passa molte ore sui libri ma gran parte del tempo viene speso a rincorrere ciò che non ha capito.',
+                            'Non avendo un metodo, alterna periodi di studio intenso a periodi di blocco.',
+                            'In verifica, questa instabilità si vede: risultati molto altalenanti.'
                         ],
                         symptomsStudent: [
-                            'Fai fatica a capire bene i testi, quindi ti serve molto più tempo per studiare.',
-                            'Senza un piano chiaro, ti accorgi vicino alla verifica di avere ancora tanto arretrato.',
-                            'Arrivi alla prova sentendoti in affanno, come se stessi inseguendo il programma invece di dominarlo.'
+                            'Passi un sacco di tempo sui libri ma gran parte lo usi per rincorrere ciò che non hai capito.',
+                            'Non avendo un metodo, passi da giorni di studio folle a giorni di blocco totale.',
+                            'In verifica questa instabilità si traduce in risultati molto altalenanti.'
                         ]
                     },
                     'capire_organizzare_scrivere': {
-                        title: 'Idee confuse, tempo sprecato e testi che non rendono il tuo reale livello',
+                        titleParent: 'Capisce a fatica, si organizza male e scrive con difficoltà',
+                        titleStudent: 'Capisco a fatica, mi organizzo male e scrivo con difficoltà',
                         symptomsParent: [
-                            'Impiega molto tempo per capire il materiale di studio e questo rallenta tutto il resto.',
-                            'Non organizza il lavoro di scrittura in fasi e finisce per improvvisare all’ultimo.',
-                            'I testi consegnati non riflettono il suo vero potenziale, perché arrivano da un processo caotico.'
+                            'I testi risultano pesanti da capire, quindi l’energia per scrivere si esaurisce in fretta.',
+                            'Si ritrova spesso a fare i compiti scritti all’ultimo momento, con poca chiarezza.',
+                            'Ogni compito scritto diventa un ostacolo che porta stress alla famiglia.'
                         ],
                         symptomsStudent: [
-                            'Ti serve molto tempo per capire bene i testi, quindi parti già in ritardo.',
-                            'Non organizzi il lavoro di scrittura in passi chiari: ti ritrovi a improvvisare.',
-                            'Quello che consegni spesso non rispecchia quanto vali davvero, perché il processo è confuso e affrettato.'
+                            'I testi ti sembrano pesanti da capire, quindi ti ritrovi scarico quando devi scrivere.',
+                            'Ti riduci spesso all’ultimo per fare i compiti scritti, con poca chiarezza.',
+                            'Ogni compito scritto ti sembra un ostacolo che porta stress e fatica mentale.'
                         ]
                     },
                     'capire_verifiche_scrivere': {
-                        title: 'Fatica a capire, paura delle verifiche e blocco davanti al foglio',
+                        titleParent: 'Fatica a capire, teme le verifiche e si blocca davanti al foglio',
+                        titleStudent: 'Fatico a capire, temo le verifiche e mi blocco davanti al foglio',
                         symptomsParent: [
                             'I testi risultano pesanti, e questo rende lo studio lento e faticoso.',
                             'Le verifiche lo mettono in ansia perché non si sente mai davvero pronto sui contenuti.',
                             'Quando deve scrivere, il blocco aumenta: teme di non riuscire a mettere in ordine ciò che ha capito.'
                         ],
                         symptomsStudent: [
-                            'I testi ti sembrano pesanti, pieni di concetti che non si lasciano afferrare facilmente.',
-                            'Le verifiche ti mettono in agitazione perché non ti senti mai davvero solido sugli argomenti.',
+                            'I testi ti sembrano pesanti, pieni di concetti difficili da afferrare.',
+                            'Le verifiche ti mettono agitazione perché non ti senti mai davvero solido sugli argomenti.',
                             'Davanti al foglio la pressione aumenta: temi di non riuscire a mettere in ordine tutto ciò che hai in testa.'
                         ]
                     },
                     'organizzare_verifiche_scrivere': {
-                        title: 'Vivi lo studio come una corsa continua contro il tempo',
+                        titleParent: 'Organizzazione fragile, verifiche in affanno e scrittura in ritardo',
+                        titleStudent: 'Mi organizzo male, arrivo alle verifiche in affanno e mi riduco all’ultimo per scrivere',
                         symptomsParent: [
-                            'Non pianifica: si attiva solo quando le verifiche si avvicinano.',
-                            'In quei momenti deve anche scrivere temi, relazioni o tesine, e il carico esplode.',
-                            "L’insieme di scadenze, compiti scritti e poca organizzazione crea stress continuo a casa."
+                            'Si muove spesso a ridosso delle scadenze, sia per lo studio che per i compiti scritti.',
+                            'Le verifiche arrivano quando è già stanco per le corse dell’ultimo minuto.',
+                            'Scrittura e studio non lavorano insieme, ma come due problemi separati.'
                         ],
                         symptomsStudent: [
-                            'Non hai una routine: ti muovi solo quando vedi le scadenze in faccia.',
-                            'Devi preparare verifiche e allo stesso tempo scrivere temi, relazioni o capitoli di tesi.',
-                            'Ti sembra di essere sempre in rincorsa, con la sensazione di avere troppa roba e troppo poco tempo.'
+                            'Ti muovi spesso a ridosso delle scadenze, sia per lo studio che per i compiti scritti.',
+                            'Arrivi alle verifiche già stanco per le corse dell’ultimo minuto.',
+                            'Scrittura e studio ti sembrano due problemi separati, difficili da tenere insieme.'
                         ]
                     },
+
+                    // Tutte e quattro
                     'capire_organizzare_verifiche_scrivere': {
-                        title: 'Sistema di studio frammentato: tanta fatica, poca resa',
+                        titleParent: 'Sistema di studio frammentato: tanta fatica, poca resa',
+                        titleStudent: 'Sistema di studio frammentato: tanta fatica, poca resa',
                         symptomsParent: [
-                            'Fatìca a capire i testi, quindi ha bisogno di più tempo di quanto ne abbia davvero.',
+                            'Fatica a capire i testi, quindi ha bisogno di più tempo di quanto ne abbia davvero.',
                             'Non avendo un metodo, si ritrova sempre in affanno tra compiti, verifiche e scadenze scritte.',
                             'Ogni verifica o compito scritto diventa una piccola emergenza, e lo studio non costruisce basi solide nel tempo.'
                         ],
                         symptomsStudent: [
-                            'Ti sembra che ogni testo sia una salita ripida, e questo ti ruba tempo e energie.',
+                            'Ti sembra che ogni testo sia una salita ripida, e questo ti ruba tempo ed energie.',
                             'Senza un metodo chiaro, ti ritrovi a rincorrere compiti, verifiche e testi da scrivere.',
-                            'Ogni prova diventa un’emergenza, e hai la sensazione di faticare tantissimo senza costruire davvero fondamenta stabili.'
+                            'Ogni prova diventa un’emergenza e hai la sensazione di faticare tantissimo senza costruire fondamenta stabili.'
                         ]
                     }
                 },
 
+                // Tentativi già provati
                 attemptsOptions: [
-                    { code: 'R', label: 'Ripetizioni generiche' },
-                    { code: 'S', label: 'Studiare più ore' },
-                    { code: 'H', label: 'Schemi fai-da-te' },
-                    { code: 'N', label: 'Nulla, improvviso' }
+                    { id: 'R', label: 'Ripetizioni generiche' },
+                    { id: 'S', label: 'Studiare più ore' },
+                    { id: 'H', label: 'Schemi fai-da-te' },
+                    { id: 'N', label: 'Nulla, improvvisiamo' }
                 ],
 
-                attemptsCombos: {
+                attemptsTexts: {
                     'R': {
-                        title: 'Le ripetizioni non hanno cambiato il quadro',
-                        textParent: 'Avete già fatto ripetizioni, ma il problema si ripresenta ogni volta che cambia argomento o insegnante. Tuo figlio ascolta, sembra capire, ma da solo fa fatica a replicare il lavoro e a organizzarsi. Il risultato è che dipende sempre da qualcuno che “gli rispieghi” invece di sviluppare un metodo tutto suo.',
-                        textStudent: 'Hai già fatto ripetizioni, ma appena finisce la lezione torni a sentirti punto e a capo. Capisci mentre qualcuno ti spiega, ma da solo fai fatica a riorganizzare il lavoro e ad andare avanti. Alla fine ti ritrovi dipendente da qualcuno che ti “rimetta in riga” ogni volta, invece di avere un metodo tuo.'
+                        textParent: 'Avete già provato le classiche ripetizioni: qualcuno che “spiega la lezione” e assegna altri esercizi. Per qualche giorno sembra andare meglio, poi tutto torna come prima perché non cambia il modo in cui studia.',
+                        textStudent: 'Hai già provato le classiche ripetizioni: qualcuno che ti “spiega la lezione” e ti dà altri esercizi. Per qualche giorno sembra andare meglio, poi tutto torna come prima perché non cambia il modo in cui studi.'
                     },
                     'S': {
-                        title: 'Aumentare le ore non sta aumentando i risultati',
-                        textParent: 'Avete provato a farlo studiare di più, ma più tempo passa sui libri, più sembra stanco e scoraggiato. Le ore aumentano, i voti migliorano poco o in modo altalenante, e a casa si respira frustrazione. Lo sforzo è alto, ma manca una struttura che renda quel tempo davvero efficace.',
-                        textStudent: 'Hai provato a studiare di più, ma più tempo resti sui libri, più ti senti stanco e svuotato. Le ore aumentano, i risultati migliorano poco o restano instabili, e ti chiedi se ne valga la pena. Stai usando tanta energia, ma senza un metodo chiaro il rendimento non cresce davvero.'
+                        textParent: 'Avete aumentato le ore di studio, magari togliendo tempo ad altro. Più tempo sui libri, stessi problemi: fatica, nervosismo e risultati altalenanti.',
+                        textStudent: 'Hai provato a studiare più ore, magari rinunciando ad altro. Più tempo sui libri, stessi problemi: fatica, nervosismo e risultati che non rispecchiano l’impegno.'
                     },
                     'H': {
-                        title: 'Schemi ovunque, ma poca chiarezza in testa',
-                        textParent: 'Ha provato a fare schemi e riassunti, ma spesso sono solo copie abbreviate del libro. Passa molto tempo a “sistemare gli appunti”, ma poi in verifica fa fatica a ritrovare le idee centrali. Gli schemi non diventano uno strumento per pensare, restano un’altra forma di riscrittura.',
-                        textStudent: 'Hai provato a fare schemi, mappe e riassunti, ma spesso sono solo il libro riscritto in piccolo. Passi un sacco di tempo a sistemare appunti e colori, ma quando devi usare quelle informazioni ti perdi. Gli schemi non ti guidano nel ragionamento: sono solo un altro modo di riscrivere, non di capire.'
+                        textParent: 'Ha provato a fare schemi, riassunti, mappe, ma senza un criterio preciso. Il rischio è riempire fogli senza costruire davvero un pensiero più chiaro.',
+                        textStudent: 'Hai provato a fare schemi, riassunti, mappe, ma spesso senza un metodo preciso. Il rischio è riempire fogli senza sentirti davvero più sicuro sugli argomenti.'
                     },
                     'N': {
-                        title: 'Finora vi siete arrangiati, ma il nodo è venuto al pettine',
-                        textParent: 'Finora avete improvvisato: si studia quando serve, come si riesce, senza una vera strategia. Ogni verifica viene gestita come un’emergenza, e a casa regna l’idea di “ce la caviamo all’ultimo”. Questo crea tensione e rende difficile costruire sicurezza e continuità nei risultati.',
-                        textStudent: 'Finora hai improvvisato: studi quando serve, come capita, senza un vero piano. Ogni verifica diventa una corsa all’ultimo minuto e ti affidi alla memoria o alla fortuna. È normale che così tu ti senta sempre in affanno e mai davvero solido su quello che stai facendo.'
+                        textParent: 'Non avete ancora provato nulla di strutturato: si va avanti “alla giornata”, sperando che le cose migliorino da sole. Il problema è che intanto il carico scolastico e l’ansia crescono.',
+                        textStudent: 'Non hai ancora provato nulla di strutturato: vai avanti “alla giornata”, sperando che le cose migliorino da sole. Intanto però il carico scolastico e l’ansia continuano a crescere.'
                     },
                     'R_S': {
-                        title: 'Tanta fatica, ma il salto di qualità non arriva',
-                        textParent: 'Avete già provato sia le ripetizioni sia ad aumentare le ore di studio, ma il salto di qualità non c’è stato. Tuo figlio si impegna, ma sembra girare in tondo: più spiegazioni, più ore, stessi blocchi di fondo. Il problema non è la quantità di aiuto o di tempo, è l’assenza di un metodo chiaro che lo renda autonomo.',
-                        textStudent: 'Hai fatto ripetizioni e hai provato a studiare di più, ma la sensazione è di girare in tondo. Ricevi spiegazioni, passi ore sui libri, ma in verifica tornano gli stessi blocchi di prima. Non è una questione di “impegnarti di più”: ti manca una struttura che ti faccia usare bene l’energia che stai già mettendo.'
+                        textParent: 'Avete provato sia con le ripetizioni che aumentando le ore di studio. Il risultato? Più tempo, più fatica, ma la sensazione che basti poco per far crollare tutto alla prima verifica.',
+                        textStudent: 'Hai provato sia con le ripetizioni che studiando più ore. Il risultato? Più tempo, più fatica, ma la sensazione che alla prima verifica un po’ diversa tutto possa crollare.'
                     },
                     'R_H': {
-                        title: 'Ti spiegano la lezione, ma il metodo non decolla',
-                        textParent: 'Le ripetizioni lo aiutano sul momento e gli schemi gli danno l’idea di essere organizzato, ma i risultati durano poco. Appena cambia argomento o insegnante, servono nuove spiegazioni e nuovi schemi da capo. Non si sta costruendo un modo di studiare trasferibile, solo “pezze” temporanee sui singoli capitoli.',
-                        textStudent: 'Le ripetizioni ti sbloccano sul momento e gli schemi ti fanno sentire più ordinato, ma l’effetto dura poco. Quando cambi argomento ti ritrovi di nuovo a chiedere aiuto e a rifare schemi da zero. Non stai ancora costruendo un metodo che puoi riusare ovunque: stai solo rincorrendo ogni capitolo separatamente.'
+                        textParent: 'Ripetizioni + schemi fai-da-te: sulla carta sembra il pacchetto completo, nella pratica è ancora frammentato. Mancando un metodo unico, ogni argomento richiede di reinventare il modo di studiare.',
+                        textStudent: 'Ripetizioni + schemi fai-da-te: sulla carta sembra il pacchetto completo, ma manca comunque un filo logico. Ogni volta devi reinventare il modo di studiare da capo.'
                     },
                     'S_H': {
-                        title: 'Molto lavoro di forma, poca resa in profondità',
-                        textParent: 'Sta studiando di più e facendo schemi, ma sembra investire tantissimo tempo in organizzazione e poco in comprensione reale. Le giornate si riempiono di studio, ma davanti alle verifiche emerge ancora insicurezza. La forma del lavoro è più curata, ma il cuore del problema – capire, scegliere cosa è importante – resta scoperto.',
-                        textStudent: 'Stai studiando di più e passi tempo a fare schemi, evidenziare, sistemare appunti. Alla fine però ti ritrovi ancora insicuro, soprattutto quando devi rispondere a domande che vanno oltre il “ripetere”. Stai lavorando tanto sulla forma dello studio, ma ti manca un metodo che ti aiuti a capire davvero e a selezionare ciò che conta.'
+                        textParent: 'Più ore di studio e tanti schemi, ma senza una guida chiara. Il rischio è trasformare lo studio in una maratona continua senza mai avere la sensazione di “tenere in mano” le materie.',
+                        textStudent: 'Hai aumentato le ore e riempito quaderni di schemi, ma senza una guida. Sembra di correre sempre, ma senza la sensazione di avere davvero in mano le materie.'
                     },
                     'R_S_H': {
-                        title: 'Stai usando tutti gli strumenti, ma manca la regia',
-                        textParent: 'Avete provato ripetizioni, più ore di studio e schemi: in pratica state usando tutti gli strumenti possibili. Nonostante questo, tuo figlio sembra ancora in affanno e i risultati non sono stabili. Manca una regia: un modo per mettere ordine tra spiegazioni, tempo e materiali, trasformandoli in un metodo che lo renda indipendente.',
-                        textStudent: 'Hai fatto ripetizioni, studi di più, fai schemi: in pratica stai usando tutte le leve che conosci. Eppure ti senti ancora sotto pressione e i risultati non sono solidi come vorresti. Quello che manca non è “fare di più”, ma avere un metodo che metta in ordine tutto questo lavoro e lo renda finalmente tuo.'
+                        textParent: 'Avete provato praticamente tutto: ripetizioni, più ore, schemi. Quando si mette insieme così tanta fatica senza un vero metodo, il messaggio implicito diventa: “non ce la fai comunque”. Qui, invece, il punto è cambiare il gioco, non solo aumentare lo sforzo.',
+                        textStudent: 'Hai provato praticamente tutto: ripetizioni, più ore, schemi. Quando metti così tanta fatica senza un vero metodo, sembra quasi che il messaggio sia “non ce la fai comunque”. Qui l’obiettivo è cambiare il gioco, non solo aggiungere peso sulle spalle.'
                     }
                 },
 
+                // Obiettivi
                 goalsOptions: [
-                    { id: 'autonomia', label: 'Più autonomia', promise: 'Che sappia organizzarsi senza bisogno di controllo continuo.' },
-                    { id: 'ansia', label: 'Meno ansia', promise: 'Affrontare le prove con la sicurezza di chi sa.' },
-                    { id: 'voti', label: 'Voti stabili', promise: 'Niente più montagne russe: risultati costanti.' },
-                    { id: 'esposizione', label: 'Saper spiegare', promise: 'Esporre concetti complessi con parole semplici.' }
+                    { id: 'autonomia', label: 'Più autonomia', promise: 'Organizzare studio e compiti senza bisogno di controllo continuo.' },
+                    { id: 'ansia', label: 'Meno ansia', promise: 'Affrontare verifiche e interrogazioni con più solidità e meno panico.' },
+                    { id: 'voti', label: 'Voti stabili', promise: 'Passare da montagne russe di voti a risultati più prevedibili e costanti.' },
+                    { id: 'esposizione', label: 'Saper spiegare', promise: 'Imparare a esporre concetti complessi con parole semplici e sicure.' }
                 ],
 
                 init() {
@@ -759,162 +798,195 @@
                 setRole(r) {
                     this.role = r;
                     setTimeout(() => {
-                        document.getElementById('step-blocks').scrollIntoView({ behavior: 'smooth' });
+                        const el = document.getElementById('step-blocks');
+                        if (el) el.scrollIntoView({ behavior: 'smooth' });
                     }, 300);
                 },
 
                 toggleSelection(type, value) {
-                    if (type === 'blocks') {
-                        this.toggleFromArray('selectedBlocks', value);
-                    } else if (type === 'attempts') {
-                        this.toggleAttempts(value);
-                    } else if (type === 'goals') {
-                        this.toggleFromArray('selectedGoals', value);
+                    if (type === 'attempts') {
+                        // Gestione speciale per "Nulla, improvvisiamo" (N)
+                        if (value === 'N') {
+                            if (this.selectedAttempts.includes('N')) {
+                                this.selectedAttempts = [];
+                            } else {
+                                this.selectedAttempts = ['N'];
+                            }
+                        } else {
+                            // Rimuovi N se presente
+                            this.selectedAttempts = this.selectedAttempts.filter(v => v !== 'N');
+
+                            if (this.selectedAttempts.includes(value)) {
+                                this.selectedAttempts = this.selectedAttempts.filter(v => v !== value);
+                            } else {
+                                this.selectedAttempts.push(value);
+                            }
+                        }
+                    } else {
+                        let arr;
+                        if (type === 'blocks') arr = this.selectedBlocks;
+                        if (type === 'goals') arr = this.selectedGoals;
+
+                        if (arr.includes(value)) {
+                            arr.splice(arr.indexOf(value), 1);
+                        } else {
+                            arr.push(value);
+                        }
                     }
+
                     this.updateFormFields();
                 },
 
-                toggleFromArray(field, value) {
-                    const arr = this[field];
-                    const idx = arr.indexOf(value);
-                    if (idx > -1) {
-                        arr.splice(idx, 1);
-                    } else {
-                        arr.push(value);
-                    }
-                },
-
-                toggleAttempts(code) {
-                    const arr = this.selectedAttempts;
-                    const isNulla = code === 'N';
-
-                    if (isNulla) {
-                        this.selectedAttempts = ['N'];
-                        return;
-                    }
-
-                    const nullaIndex = arr.indexOf('N');
-                    if (nullaIndex > -1) {
-                        arr.splice(nullaIndex, 1);
-                    }
-
-                    const idx = arr.indexOf(code);
-                    if (idx > -1) {
-                        arr.splice(idx, 1);
-                    } else {
-                        arr.push(code);
-                    }
-                },
-
                 getBlocksKey() {
-                    if (!this.selectedBlocks.length) return null;
-                    return this.selectedBlocks.slice().sort().join('_');
+                    return this.selectedBlocks
+                        .slice()
+                        .sort((a, b) => this.blocksOrder.indexOf(a) - this.blocksOrder.indexOf(b))
+                        .join('_');
                 },
 
-                getBlocksInfo() {
-                    const key = this.getBlocksKey();
-                    if (!key) return null;
-                    return this.blocksCombos[key] || null;
-                },
+                getCurrentBlockInfo() {
+                    if (this.selectedBlocks.length === 0) return null;
 
-                getBlocksSymptoms() {
-                    const info = this.getBlocksInfo();
-                    if (!info) return [];
-                    const isParent = this.role === 'genitore';
-                    return isParent ? info.symptomsParent : info.symptomsStudent;
-                },
+                    let info = null;
 
-                getInterventionText() {
-                    if (!this.selectedBlocks.length) return '';
-                    const isParent = this.role === 'genitore';
-                    const labels = this.selectedBlocks
-                        .map(id => this.blocksOptions.find(o => o.id === id)?.label.toLowerCase())
-                        .filter(Boolean)
-                        .join(', ');
-                    if (isParent) {
-                        return `Lavoriamo insieme su ${labels} con un metodo strutturato: ti mostro come trasformare il modo in cui tuo figlio studia, invece di aggiungere solo altre ore sui libri.`;
+                    if (this.selectedBlocks.length === 1) {
+                        const id = this.selectedBlocks[0];
+                        info = this.blocksInfo[id];
                     } else {
-                        return `Lavoriamo insieme su ${labels} con un metodo chiaro: ti aiuto a cambiare il modo in cui studi, non solo ad aggiungere altre ore sui libri.`;
+                        const key = this.getBlocksKey();
+                        info = this.blocksInfoCombinations[key];
                     }
+
+                    if (!info) return null;
+
+                    const isParent = (this.role === 'genitore');
+
+                    const title = (isParent ? info.titleParent : info.titleStudent) || info.title || '';
+                    const symptoms =
+                        (isParent ? info.symptomsParent : info.symptomsStudent) ||
+                        info.symptoms ||
+                        [];
+
+                    const solution = this.buildBlocksSolution();
+
+                    return { title, symptoms, solution };
                 },
 
-                getAttemptsKey() {
-                    if (!this.selectedAttempts.length) return null;
-                    const sorted = this.selectedAttempts.slice().sort();
-                    return sorted.join('_');
-                },
+                buildBlocksSolution() {
+                    if (this.selectedBlocks.length === 0) return '';
 
-                getAttemptsInfo() {
-                    const key = this.getAttemptsKey();
-                    if (!key) return null;
-                    return this.attemptsCombos[key] || null;
-                },
+                    const labels = this.selectedBlocks
+                        .map(id => this.blocksOptions.find(o => o.id === id))
+                        .filter(Boolean)
+                        .map(o => o.label.toLowerCase());
 
-                getAttemptsText() {
-                    const info = this.getAttemptsInfo();
-                    if (!info) return '';
-                    return this.role === 'genitore' ? info.textParent : info.textStudent;
+                    const lista = labels.join(', ');
+
+                    return `Lavoriamo insieme proprio su ${lista}: non aggiungo solo altre ore di studio, ma ti aiuto a cambiare il modo in cui si affrontano testi, compiti e verifiche.`;
                 },
 
                 getStickySummary() {
-                    if (!this.selectedBlocks.length) return '...';
+                    if (this.selectedBlocks.length === 0) return '...';
+
                     const labels = this.selectedBlocks
-                        .map(id => this.blocksOptions.find(o => o.id === id)?.label)
-                        .filter(Boolean);
+                        .map(id => this.blocksOptions.find(o => o.id === id))
+                        .filter(Boolean)
+                        .map(o => o.label);
+
                     const text = labels.join(', ');
-                    return text.length > 25 ? text.substring(0, 25) + '…' : text;
+                    return text.length > 40 ? text.substring(0, 37) + '…' : text;
                 },
 
                 selectLevel(level) {
                     this.selectedLevel = level;
-                    const s = document.getElementById('diagnosi-info');
-                    if (s) s.scrollIntoView({ behavior: 'smooth' });
+                    const el = document.getElementById('colloquio-info');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
                 },
 
                 updateFormFields() {
-                    const problemsTextBase = this.selectedBlocks
-                        .map(id => this.blocksOptions.find(o => o.id === id)?.label)
-                        .filter(Boolean)
-                        .join(', ');
-
-                    if (problemsTextBase) {
-                        this.formProblems = problemsTextBase + '. Se vuoi, aggiungi materia, classe/anno ed esempi concreti delle difficoltà.';
-                    } else {
+                    // Principali difficoltà: dai blocchi selezionati
+                    if (this.selectedBlocks.length === 0) {
                         this.formProblems = '';
+                    } else {
+                        const labels = this.selectedBlocks
+                            .map(id => this.blocksOptions.find(o => o.id === id))
+                            .filter(Boolean)
+                            .map(o => o.label);
+                        this.formProblems = labels.join(', ');
                     }
 
-                    if (this.selectedGoals.length > 0) {
+                    // Obiettivo principale: prima goal selezionata
+                    if (this.selectedGoals.length === 0) {
+                        this.formGoal = '';
+                    } else {
                         const firstGoal = this.goalsOptions.find(g => g.id === this.selectedGoals[0]);
                         this.formGoal = firstGoal ? firstGoal.label : '';
-                    } else {
-                        this.formGoal = '';
                     }
                 },
 
                 scrollToForm() {
-                    const el = document.getElementById('diagnosi');
+                    const el = document.getElementById('colloquio');
                     if (el) el.scrollIntoView({ behavior: 'smooth' });
                 },
 
+                getAttemptsKey() {
+                    return this.selectedAttempts
+                        .slice()
+                        .sort((a, b) => this.attemptsOrder.indexOf(a) - this.attemptsOrder.indexOf(b))
+                        .join('_');
+                },
+
+                getAttemptsInfo() {
+                    if (this.selectedAttempts.length === 0) return null;
+
+                    // Caso "Nulla, improvvisiamo"
+                    if (this.selectedAttempts.length === 1 && this.selectedAttempts[0] === 'N') {
+                        const base = this.attemptsTexts['N'];
+                        return {
+                            text: this.role === 'genitore' ? base.textParent : base.textStudent
+                        };
+                    }
+
+                    // Qualsiasi altra combinazione che includa N viene trattata come N
+                    if (this.selectedAttempts.includes('N')) {
+                        const base = this.attemptsTexts['N'];
+                        return {
+                            text: this.role === 'genitore' ? base.textParent : base.textStudent
+                        };
+                    }
+
+                    const key = this.getAttemptsKey();
+                    const base = this.attemptsTexts[key];
+
+                    if (!base) return null;
+
+                    return {
+                        text: this.role === 'genitore' ? base.textParent : base.textStudent
+                    };
+                },
+
                 get whatsappLink() {
-                    const phone = '39XXXXXXXXXX'; // Sostituire con numero reale
+                    const phone = "391234567890"; // Sostituire con numero reale, es: 3934xxxxxxx
                     let text = `Ciao Dolores, sono un ${this.role || 'interessato'}`;
-                    if (this.selectedLevel) text += ` (Livello: ${this.selectedLevel})`;
-                    if (this.formProblems) text += `. Ho difficoltà su: ${this.formProblems}`;
-                    text += '. Vorrei prenotare una sessione gratuita.';
+
+                    if (this.selectedLevel) text += ` (livello: ${this.selectedLevel})`;
+                    if (this.formProblems) text += `. Principali difficoltà: ${this.formProblems}`;
+                    if (this.formGoal) text += `. Obiettivo: ${this.formGoal}`;
+
+                    text += ". Vorrei prenotare un primo colloquio.";
+
                     return `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
                 },
-                
+
                 submitForm() {
-                    if (!this.role) {
-                        alert("Per favore indica se sei genitore o studente all'inizio della pagina.");
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    // Mini validazione minima: almeno difficoltà o obiettivo
+                    if (!this.formProblems && !this.formGoal) {
+                        alert("Scrivi almeno una difficoltà o un obiettivo, così il colloquio ha subito un punto di partenza concreto.");
                         return;
                     }
-                    if (!this.formProblems || !this.formProblems.trim()) {
-                        alert('Per favore descrivi brevemente le difficoltà principali prima di inviare.');
-                        return;
-                    }
+
+                    // In un sito reale qui invieresti i dati a un backend
+                    alert("Richiesta inviata. Ora si apre WhatsApp per completare il contatto.");
                     window.open(this.whatsappLink, '_blank');
                 }
             }
