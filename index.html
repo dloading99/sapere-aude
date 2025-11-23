@@ -105,8 +105,57 @@
             </div>
         </section>
 
-        <!-- Contenitore che appare solo dopo aver scelto il ruolo -->
-        <div x-show="role" x-transition:enter="transition ease-out duration-700" x-transition:enter-start="opacity-0 translate-y-10" x-transition:enter-end="opacity-100 translate-y-0">
+        <!-- SEZIONE 1B: LIVELLO SCOLASTICO (dopo ruolo) -->
+        <section 
+            id="level-select"
+            class="py-12 px-6 border-t border-petrol/5"
+            x-show="role && !selectedLevel"
+            x-transition>
+            <div class="container mx-auto max-w-3xl text-center">
+                <h2 class="font-serif text-3xl md:text-4xl mb-4 text-petrol">
+                    Per chi stai cercando aiuto?
+                </h2>
+                <p class="text-petrol/70 mb-8 max-w-2xl mx-auto">
+                    Scegli il livello scolastico: il linguaggio e gli esempi si adatteranno automaticamente.
+                </p>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <button 
+                        @click="setLevel('Elementari')"
+                        :class="selectedLevel === 'Elementari' ? 'bg-petrol text-cream ring-4 ring-accent/30' : 'bg-white text-petrol border border-petrol/20 hover:border-coral hover:text-coral'"
+                        class="py-4 px-3 rounded-lg text-sm font-semibold uppercase tracking-widest transition-all duration-200">
+                        Elementari
+                    </button>
+
+                    <button 
+                        @click="setLevel('Medie')"
+                        :class="selectedLevel === 'Medie' ? 'bg-petrol text-cream ring-4 ring-accent/30' : 'bg-white text-petrol border border-petrol/20 hover:border-coral hover:text-coral'"
+                        class="py-4 px-3 rounded-lg text-sm font-semibold uppercase tracking-widest transition-all duration-200">
+                        Medie
+                    </button>
+
+                    <button 
+                        @click="setLevel('Superiori')"
+                        :class="selectedLevel === 'Superiori' ? 'bg-petrol text-cream ring-4 ring-accent/30' : 'bg-white text-petrol border border-petrol/20 hover:border-coral hover:text-coral'"
+                        class="py-4 px-3 rounded-lg text-sm font-semibold uppercase tracking-widest transition-all duration-200">
+                        Superiori
+                    </button>
+
+                    <button 
+                        @click="setLevel('Università')"
+                        :class="selectedLevel === 'Università' ? 'bg-petrol text-cream ring-4 ring-accent/30' : 'bg-white text-petrol border border-petrol/20 hover:border-coral hover:text-coral'"
+                        class="py-4 px-3 rounded-lg text-sm font-semibold uppercase tracking-widest transition-all duration-200">
+                        Università
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contenitore che appare solo dopo aver scelto ruolo + livello -->
+        <div x-show="role && selectedLevel"
+             x-transition:enter="transition ease-out duration-700"
+             x-transition:enter-start="opacity-0 translate-y-10"
+             x-transition:enter-end="opacity-100 translate-y-0">
 
             <!-- SEZIONE 2: DOVE TI BLOCCHI? -->
             <section id="step-blocks" class="py-20 md:py-32 px-6">
@@ -147,7 +196,9 @@
 
                         <template x-if="getCurrentBlockInfo()">
                             <div class="relative z-10" x-transition.opacity>
-                                <span class="text-xs font-bold tracking-widest text-coral uppercase mb-2 block">Cosa succede di solito</span>
+                                <span class="text-xs font-bold tracking-widest text-coral uppercase mb-2 block">
+                                    <span x-text="role === 'genitore' ? 'Cosa succede di solito a tuo figlio' : 'Cosa succede di solito quando studi'"></span>
+                                </span>
                                 <h3 class="font-serif text-2xl mb-4 text-petrol" x-text="getCurrentBlockInfo().title"></h3>
                                 <ul class="space-y-2 mb-8">
                                     <template x-for="point in getCurrentBlockInfo().symptoms" :key="point">
@@ -159,7 +210,9 @@
                                 </ul>
 
                                 <div class="border-t border-petrol/10 pt-6">
-                                    <span class="text-xs font-bold tracking-widest text-petrol/60 uppercase mb-2 block">Il mio intervento</span>
+                                    <span class="text-xs font-bold tracking-widest text-petrol/60 uppercase mb-2 block">
+                                        <span x-text="role === 'genitore' ? 'Come intervengo io' : 'Come lavoriamo insieme'"></span>
+                                    </span>
                                     <p class="text-petrol italic font-serif text-lg leading-relaxed" x-text="getCurrentBlockInfo().solution"></p>
                                 </div>
                             </div>
@@ -253,7 +306,9 @@
                         <div class="relative bg-petrol p-6 pt-0">
                             <div class="w-16 h-16 bg-petrol border-2 border-accent text-accent rounded-full flex items-center justify-center text-2xl font-serif font-bold mb-6 mx-auto md:mx-0 relative z-10">3</div>
                             <h3 class="text-2xl font-serif text-accent mb-4">Allenare</h3>
-                            <p class="text-cream/70 leading-relaxed">Simuliamo verifiche, interrogazioni e discussioni. Correggiamo il processo mentale, non solo il risultato finale.</p>
+                            <p class="text-cream/70 leading-relaxed">
+                                Simuliamo prove orali e scritte, discussioni e momenti di verifica. Correggiamo il processo mentale, non solo il risultato finale.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -497,6 +552,66 @@
     <!-- ALPINE LOGIC -->
     <script>
         function studyMethodApp() {
+            // Testi base per i singoli blocchi (adatti a tutti i livelli, senza "compiti/verifiche" hardcoded)
+            const blocksInfoBase = {
+                capire: {
+                    titleParent: 'Fa fatica a capire davvero ciò che legge',
+                    titleStudent: 'Fai fatica a capire davvero ciò che leggi',
+                    symptomsParent: [
+                        'Legge ma, se gli chiedi di spiegare, si blocca o ripete frasi a memoria.',
+                        'Si perde nei dettagli e non riesce a individuare l’idea centrale.',
+                        'Arriva alla fine della pagina con la sensazione di non aver capito quasi nulla.'
+                    ],
+                    symptomsStudent: [
+                        'Leggi ma, se dovessi spiegare a qualcuno, non sapresti da dove iniziare.',
+                        'Ti perdi nei dettagli e fai fatica a capire qual è il punto centrale.',
+                        'Arrivi alla fine della pagina con la sensazione di non aver capito davvero.'
+                    ]
+                },
+                organizzare: {
+                    titleParent: 'Studia tanto, ma senza una vera organizzazione',
+                    titleStudent: 'Studi tanto, ma senza una vera organizzazione',
+                    symptomsParent: [
+                        'Passa molte ore sui libri ma con risultati altalenanti.',
+                        'Si riduce spesso all’ultimo momento per prepararsi.',
+                        'Fa fatica a capire da dove iniziare quando ha più argomenti o materie.'
+                    ],
+                    symptomsStudent: [
+                        'Passi molto tempo sui libri ma i risultati non sono proporzionati allo sforzo.',
+                        'Ti ritrovi spesso a prepararti all’ultimo minuto.',
+                        'Quando ci sono più argomenti o consegne, fai fatica a capire da dove iniziare.'
+                    ]
+                },
+                verifiche: {
+                    titleParent: 'In casa sembra preparato, ma davanti alle prove si blocca',
+                    titleStudent: 'In casa ti senti preparato, ma davanti alle prove ti blocchi',
+                    symptomsParent: [
+                        'A casa sembra sapere le cose, ma durante le prove si confonde o va in ansia.',
+                        'Prima di ogni prova cresce l’agitazione, indipendentemente da quanto ha studiato.',
+                        'Dopo il risultato negativo tende a svalutarsi invece di capire cosa non ha funzionato.'
+                    ],
+                    symptomsStudent: [
+                        'A casa ti sembra di sapere, ma al momento della prova ti blocchi o ti confondi.',
+                        'Prima delle prove l’ansia cresce, anche quando ti sei preparato.',
+                        'Dopo un risultato basso ti dai la colpa invece di capire cosa non ha funzionato nel metodo.'
+                    ]
+                },
+                scrivere: {
+                    titleParent: 'Davanti al foglio si blocca o scrive in modo confuso',
+                    titleStudent: 'Davanti al foglio ti blocchi o scrivi in modo confuso',
+                    symptomsParent: [
+                        'Quando deve scrivere, passa molto tempo senza riuscire a iniziare.',
+                        'Le frasi escono lunghe e contorte, difficili da seguire.',
+                        'Fa fatica a collegare le idee in modo chiaro e ordinato.'
+                    ],
+                    symptomsStudent: [
+                        'Quando devi scrivere, passi molto tempo a fissare il foglio prima di iniziare.',
+                        'Ti escono frasi lunghe e complicate, poco chiare anche per te.',
+                        'Fai fatica a mettere le idee in un ordine che abbia davvero senso.'
+                    ]
+                }
+            };
+
             return {
                 role: null,
                 selectedBlocks: [],
@@ -512,226 +627,10 @@
 
                 blocksOptions: [
                     { id: 'capire', label: 'Capire i testi complessi' },
-                    { id: 'organizzare', label: 'Organizzare tempo e compiti' },
-                    { id: 'verifiche', label: 'Preparare verifiche ed esami' },
-                    { id: 'scrivere', label: 'Scrivere (temi, tesi, tesine)' }
+                    { id: 'organizzare', label: 'Organizzare tempo e studio' },
+                    { id: 'verifiche', label: 'Preparare prove ed esami' },
+                    { id: 'scrivere', label: 'Scrivere (temi, relazioni, tesi)' }
                 ],
-
-                blocksInfo: {
-                    'capire': {
-                        titleParent: 'Fa fatica a capire ciò che legge',
-                        titleStudent: 'Faccio fatica a capire ciò che leggo',
-                        symptomsParent: [
-                            'Legge ma non riesce a spiegare davvero con parole sue.',
-                            'Si perde nei dettagli e non trova mai il centro del discorso.',
-                            'Arriva alla fine del paragrafo con la sensazione di non aver capito quasi nulla.'
-                        ],
-                        symptomsStudent: [
-                            'Leggi ma fai fatica a spiegare quello che hai letto con parole tue.',
-                            'Ti perdi nei dettagli e non riesci a capire qual è il punto davvero importante.',
-                            'Arrivi alla fine del paragrafo con la sensazione di non aver capito quasi nulla.'
-                        ]
-                    },
-                    'organizzare': {
-                        titleParent: 'Studia tanto ma resta sempre indietro',
-                        titleStudent: 'Studio tanto ma ho la sensazione di essere sempre indietro',
-                        symptomsParent: [
-                            'Si mette a studiare tardi e cambia continuamente materia senza una logica.',
-                            'Passa ore sui libri ma non sa dire cosa ha davvero concluso.',
-                            'Compiti, verifiche e scadenze arrivano addosso all’ultimo minuto.'
-                        ],
-                        symptomsStudent: [
-                            'Ti metti a studiare tardi e cambi materia in continuazione senza una vera logica.',
-                            'Passi ore sui libri ma alla fine non sai dire cosa hai davvero concluso.',
-                            'Compiti, verifiche e scadenze ti arrivano addosso sempre all’ultimo minuto.'
-                        ]
-                    },
-                    'verifiche': {
-                        titleParent: 'A casa sa le cose, davanti al professore si blocca',
-                        titleStudent: 'A casa so le cose, davanti al professore mi blocco',
-                        symptomsParent: [
-                            'A casa sembra preparato, ma in verifica va nel pallone.',
-                            'Ha blackout improvvisi proprio quando deve dimostrare ciò che sa.',
-                            'Le verifiche e le interrogazioni diventano un momento di panico più che di verifica reale.'
-                        ],
-                        symptomsStudent: [
-                            'A casa ti sembra di sapere le cose, ma in verifica ti blocchi.',
-                            'Ti capita il vuoto di memoria proprio quando dovresti dimostrare quello che sai.',
-                            'Verifiche e interrogazioni ti mettono più in ansia che altro, anche quando hai studiato.'
-                        ]
-                    },
-                    'scrivere': {
-                        titleParent: 'Blocco davanti al foglio: sa le cose ma non sa “metterle giù”',
-                        titleStudent: 'Blocco davanti al foglio: so le cose ma non riesco a scriverle',
-                        symptomsParent: [
-                            'Davanti al foglio bianco non sa da dove partire.',
-                            'Le frasi escono contorte, ripetitive o poco chiare.',
-                            'I testi risultano lunghi ma poco strutturati, con idee messe in fila senza ordine.'
-                        ],
-                        symptomsStudent: [
-                            'Davanti al foglio bianco non sai da dove partire.',
-                            'Le frasi ti escono contorte, ripetitive o poco chiare.',
-                            'I testi diventano lunghi ma con le idee messe un po’ a caso, senza una vera struttura.'
-                        ]
-                    }
-                },
-
-                blocksInfoCombinations: {
-                    'capire_organizzare': {
-                        titleParent: 'Studia tanto, capisce poco e si perde nel caos',
-                        titleStudent: 'Studio tanto, capisco poco e mi perdo nel caos',
-                        symptomsParent: [
-                            'Fa fatica a capire i testi e questo lo rallenta su tutto il resto.',
-                            'Perde tempo su poche pagine e poi si accorge di essere indietro con il resto dei compiti.',
-                            'Alterna momenti di iper-sforzo a momenti di blocco totale, senza un piano che lo aiuti.'
-                        ],
-                        symptomsStudent: [
-                            'Fai fatica a capire ciò che leggi e questo ti rallenta su tutto.',
-                            'Rimani bloccato su poche pagine e poi ti accorgi di aver lasciato indietro il resto.',
-                            'Alterni giornate in cui ti sforzi tantissimo ad altre in cui ti blocchi, perché non hai un piano chiaro.'
-                        ]
-                    },
-                    'capire_verifiche': {
-                        titleParent: 'Non capisce a fondo e in verifica crolla',
-                        titleStudent: 'Non capisco davvero e in verifica crollo',
-                        symptomsParent: [
-                            'Studia i testi “a memoria” perché non li afferra fino in fondo.',
-                            'In verifica, appena cambia la domanda, va in confusione.',
-                            'Più aumentano le richieste di ragionamento, più i voti oscillano.'
-                        ],
-                        symptomsStudent: [
-                            'Ti ritrovi spesso a studiare i testi quasi “a memoria” perché non li afferri davvero.',
-                            'In verifica, se la domanda è diversa da come l’avevi immaginata, vai in confusione.',
-                            'Quando serve ragionare e non solo ripetere, ti sembra che il terreno ti manchi sotto i piedi.'
-                        ]
-                    },
-                    'capire_scrivere': {
-                        titleParent: 'Capisce a metà e scrive in modo confuso',
-                        titleStudent: 'Capisco a metà e scrivo in modo confuso',
-                        symptomsParent: [
-                            'Ha un’idea generale degli argomenti ma non sa organizzarli in un discorso scritto.',
-                            'I testi risultano pieni di frasi “giuste” ma poco collegate tra loro.',
-                            'Temi, relazioni e tesine vengono percepite come montagne impossibili da scalare.'
-                        ],
-                        symptomsStudent: [
-                            'Hai un’idea generale degli argomenti ma fai fatica a trasformarla in un testo chiaro.',
-                            'Metti giù frasi che sembrano giuste ma non sai bene come collegarle tra loro.',
-                            'Temi, relazioni e tesine ti sembrano montagne impossibili da scalare.'
-                        ]
-                    },
-                    'organizzare_verifiche': {
-                        titleParent: 'Studia a ondate e arriva stremato alle verifiche',
-                        titleStudent: 'Studio a ondate e arrivo stremato alle verifiche',
-                        symptomsParent: [
-                            'Parte tardi con lo studio e arriva alle verifiche con maratone dell’ultimo minuto.',
-                            'Fa nottate sui libri ma il giorno dopo è stanco e meno lucido.',
-                            'Ogni verifica diventa un’emergenza, non la conseguenza naturale di uno studio continuo.'
-                        ],
-                        symptomsStudent: [
-                            'Ti riduci spesso all’ultimo e arrivi alle verifiche dopo maratone di studio.',
-                            'Fai tardi la sera per studiare e il giorno dopo sei stanco e meno lucido.',
-                            'Ogni verifica diventa un’emergenza invece che il risultato di uno studio continuo.'
-                        ]
-                    },
-                    'organizzare_scrivere': {
-                        titleParent: 'Troppe cose da gestire, scrittura sempre in ritardo',
-                        titleStudent: 'Ho troppe cose da gestire e mi riduco sempre all’ultimo per scrivere',
-                        symptomsParent: [
-                            'Rimanda continuamente i compiti scritti perché richiedono più energia mentale.',
-                            'Si ritrova a scrivere all’ultimo momento testi che richiederebbero tempo per essere pensati.',
-                            'L’ansia cresce perché tutto ciò che è scritto sembra “troppo impegnativo”.'
-                        ],
-                        symptomsStudent: [
-                            'Rimandi spesso i compiti scritti perché ti richiedono più fatica mentale.',
-                            'Finisci per scrivere all’ultimo cose che avrebbero bisogno di tempo per essere pensate.',
-                            'Ti sembra che tutto ciò che è scritto sia “troppo impegnativo” e questo aumenta l’ansia.'
-                        ]
-                    },
-                    'verifiche_scrivere': {
-                        titleParent: 'Sa ma non riesce a dimostrarlo, né oralmente né per iscritto',
-                        titleStudent: 'So le cose, ma non riesco a dimostrarlo né a voce né per iscritto',
-                        symptomsParent: [
-                            'In verifica orale si blocca, nello scritto non riesce a strutturare il discorso.',
-                            'Il voto non riflette mai davvero la quantità di studio.',
-                            'Ogni prova sembra un giudizio sulla persona più che sul lavoro fatto.'
-                        ],
-                        symptomsStudent: [
-                            'All’orale ti blocchi, nello scritto fai fatica a strutturare le idee.',
-                            'Hai spesso la sensazione che il voto non rappresenti quanto hai studiato.',
-                            'Ogni prova ti sembra un giudizio su di te, più che sul lavoro che hai fatto.'
-                        ]
-                    },
-                    'capire_organizzare_verifiche': {
-                        titleParent: 'Studia tanto, capisce a metà e alle verifiche crolla',
-                        titleStudent: 'Studio tanto, capisco a metà e alle verifiche crollo',
-                        symptomsParent: [
-                            'Passa molte ore sui libri ma gran parte del tempo viene speso a rincorrere ciò che non ha capito.',
-                            'Non avendo un metodo, alterna periodi di studio intenso a periodi di blocco.',
-                            'In verifica, questa instabilità si vede: risultati molto altalenanti.'
-                        ],
-                        symptomsStudent: [
-                            'Passi un sacco di tempo sui libri ma gran parte lo usi per rincorrere ciò che non hai capito.',
-                            'Non avendo un metodo, passi da giorni di studio folle a giorni di blocco totale.',
-                            'In verifica questa instabilità si traduce in risultati molto altalenanti.'
-                        ]
-                    },
-                    'capire_organizzare_scrivere': {
-                        titleParent: 'Capisce a fatica, si organizza male e scrive con difficoltà',
-                        titleStudent: 'Capisco a fatica, mi organizzo male e scrivo con difficoltà',
-                        symptomsParent: [
-                            'I testi risultano pesanti da capire, quindi l’energia per scrivere si esaurisce in fretta.',
-                            'Si ritrova spesso a fare i compiti scritti all’ultimo momento, con poca chiarezza.',
-                            'Ogni compito scritto diventa un ostacolo che porta stress alla famiglia.'
-                        ],
-                        symptomsStudent: [
-                            'I testi ti sembrano pesanti da capire, quindi ti ritrovi scarico quando devi scrivere.',
-                            'Ti riduci spesso all’ultimo per fare i compiti scritti, con poca chiarezza.',
-                            'Ogni compito scritto ti sembra un ostacolo che porta stress e fatica mentale.'
-                        ]
-                    },
-                    'capire_verifiche_scrivere': {
-                        titleParent: 'Fatica a capire, teme le verifiche e si blocca davanti al foglio',
-                        titleStudent: 'Fatico a capire, temo le verifiche e mi blocco davanti al foglio',
-                        symptomsParent: [
-                            'I testi risultano pesanti, e questo rende lo studio lento e faticoso.',
-                            'Le verifiche lo mettono in ansia perché non si sente mai davvero pronto sui contenuti.',
-                            'Quando deve scrivere, il blocco aumenta: teme di non riuscire a mettere in ordine ciò che ha capito.'
-                        ],
-                        symptomsStudent: [
-                            'I testi ti sembrano pesanti, pieni di concetti difficili da afferrare.',
-                            'Le verifiche ti mettono agitazione perché non ti senti mai davvero solido sugli argomenti.',
-                            'Davanti al foglio la pressione aumenta: temi di non riuscire a mettere in ordine tutto ciò che hai in testa.'
-                        ]
-                    },
-                    'organizzare_verifiche_scrivere': {
-                        titleParent: 'Organizzazione fragile, verifiche in affanno e scrittura in ritardo',
-                        titleStudent: 'Mi organizzo male, arrivo alle verifiche in affanno e mi riduco all’ultimo per scrivere',
-                        symptomsParent: [
-                            'Si muove spesso a ridosso delle scadenze, sia per lo studio che per i compiti scritti.',
-                            'Le verifiche arrivano quando è già stanco per le corse dell’ultimo minuto.',
-                            'Scrittura e studio non lavorano insieme, ma come due problemi separati.'
-                        ],
-                        symptomsStudent: [
-                            'Ti muovi spesso a ridosso delle scadenze, sia per lo studio che per i compiti scritti.',
-                            'Arrivi alle verifiche già stanco per le corse dell’ultimo minuto.',
-                            'Scrittura e studio ti sembrano due problemi separati, difficili da tenere insieme.'
-                        ]
-                    },
-                    'capire_organizzare_verifiche_scrivere': {
-                        titleParent: 'Sistema di studio frammentato: tanta fatica, poca resa',
-                        titleStudent: 'Sistema di studio frammentato: tanta fatica, poca resa',
-                        symptomsParent: [
-                            'Fatica a capire i testi, quindi ha bisogno di più tempo di quanto ne abbia davvero.',
-                            'Non avendo un metodo, si ritrova sempre in affanno tra compiti, verifiche e scadenze scritte.',
-                            'Ogni verifica o compito scritto diventa una piccola emergenza, e lo studio non costruisce basi solide nel tempo.'
-                        ],
-                        symptomsStudent: [
-                            'Ti sembra che ogni testo sia una salita ripida, e questo ti ruba tempo ed energie.',
-                            'Senza un metodo chiaro, ti ritrovi a rincorrere compiti, verifiche e testi da scrivere.',
-                            'Ogni prova diventa un’emergenza e hai la sensazione di faticare tantissimo senza costruire fondamenta stabili.'
-                        ]
-                    }
-                },
 
                 attemptsOptions: [
                     { id: 'R', label: 'Ripetizioni generiche' },
@@ -758,8 +657,8 @@
                         textStudent: 'Non hai ancora provato nulla di strutturato: vai avanti “alla giornata”, sperando che le cose migliorino da sole. Intanto però il carico scolastico e l’ansia continuano a crescere.'
                     },
                     'R_S': {
-                        textParent: 'Avete provato sia con le ripetizioni che aumentando le ore di studio. Il risultato? Più tempo, più fatica, ma la sensazione che basti poco per far crollare tutto alla prima verifica.',
-                        textStudent: 'Hai provato sia con le ripetizioni che studiando più ore. Il risultato? Più tempo, più fatica, ma la sensazione che alla prima verifica un po’ diversa tutto possa crollare.'
+                        textParent: 'Avete provato sia con le ripetizioni che aumentando le ore di studio. Il risultato? Più tempo, più fatica, ma la sensazione che basti poco per far crollare tutto alla prima prova.',
+                        textStudent: 'Hai provato sia con le ripetizioni che studiando più ore. Il risultato? Più tempo, più fatica, ma la sensazione che alla prima prova un po’ diversa tutto possa crollare.'
                     },
                     'R_H': {
                         textParent: 'Ripetizioni + schemi fai-da-te: sulla carta sembra il pacchetto completo, nella pratica è ancora frammentato. Mancando un metodo unico, ogni argomento richiede di reinventare il modo di studiare.',
@@ -777,7 +676,7 @@
 
                 goalsOptions: [
                     { id: 'autonomia', label: 'Più autonomia', promise: 'Organizzare studio e compiti senza bisogno di controllo continuo.' },
-                    { id: 'ansia', label: 'Meno ansia', promise: 'Affrontare verifiche e interrogazioni con più solidità e meno panico.' },
+                    { id: 'ansia', label: 'Meno ansia', promise: 'Affrontare prove e momenti di valutazione con più solidità e meno panico.' },
                     { id: 'voti', label: 'Voti stabili', promise: 'Passare da montagne russe di voti a risultati più prevedibili e costanti.' },
                     { id: 'esposizione', label: 'Saper spiegare', promise: 'Imparare a esporre concetti complessi con parole semplici e sicure.' }
                 ],
@@ -791,20 +690,30 @@
                 setRole(r) {
                     this.role = r;
                     setTimeout(() => {
-                        const el = document.getElementById('step-blocks');
+                        const el = document.getElementById('level-select');
                         if (el) el.scrollIntoView({ behavior: 'smooth' });
                     }, 300);
+                },
+
+                setLevel(level) {
+                    this.selectedLevel = level;
+                    setTimeout(() => {
+                        const el = document.getElementById('step-blocks');
+                        if (el) el.scrollIntoView({ behavior: 'smooth' });
+                    }, 200);
                 },
 
                 toggleSelection(type, value) {
                     if (type === 'attempts') {
                         if (value === 'N') {
+                            // "Nulla, improvvisiamo" esclusivo
                             if (this.selectedAttempts.includes('N')) {
                                 this.selectedAttempts = [];
                             } else {
                                 this.selectedAttempts = ['N'];
                             }
                         } else {
+                            // se scelgo altro, rimuovo "N"
                             this.selectedAttempts = this.selectedAttempts.filter(v => v !== 'N');
 
                             if (this.selectedAttempts.includes(value)) {
@@ -828,6 +737,46 @@
                     this.updateFormFields();
                 },
 
+                // Etichette lessicali per livello
+                getValutazioniLabel() {
+                    if (this.selectedLevel === 'Università') {
+                        return 'gli esami e gli appelli';
+                    }
+                    if (this.selectedLevel === 'Superiori') {
+                        return 'verifiche, interrogazioni e prove scritte';
+                    }
+                    if (this.selectedLevel === 'Medie') {
+                        return 'verifiche e interrogazioni';
+                    }
+                    return 'verifiche, interrogazioni e prove in classe';
+                },
+
+                getScritturaLabel() {
+                    if (this.selectedLevel === 'Università') {
+                        return 'tesi, paper, relazioni e progetti scritti';
+                    }
+                    if (this.selectedLevel === 'Superiori') {
+                        return 'temi, analisi del testo e compiti in classe scritti';
+                    }
+                    if (this.selectedLevel === 'Medie') {
+                        return 'temi, riassunti e brevi testi scritti';
+                    }
+                    return 'i primi testi scritti e i compiti di italiano';
+                },
+
+                getStudioContestoLabel() {
+                    if (this.selectedLevel === 'Università') {
+                        return 'studio quotidiano, preparazione agli esami e lavoro sui testi';
+                    }
+                    if (this.selectedLevel === 'Superiori') {
+                        return 'compiti, verifiche e preparazione alle interrogazioni';
+                    }
+                    if (this.selectedLevel === 'Medie') {
+                        return 'compiti, verifiche e studio dei testi più lunghi';
+                    }
+                    return 'compiti, letture e piccole verifiche';
+                },
+
                 getBlocksKey() {
                     return this.selectedBlocks
                         .slice()
@@ -836,35 +785,57 @@
                 },
 
                 getCurrentBlockInfo() {
-                    if (this.selectedBlocks.length === 0) return null;
+                    if (this.selectedBlocks.length === 0 || !this.selectedLevel) return null;
 
-                    let info = null;
-
+                    // caso singolo blocco → uso testi specifici
                     if (this.selectedBlocks.length === 1) {
                         const id = this.selectedBlocks[0];
-                        info = this.blocksInfo[id];
-                    } else {
-                        const key = this.getBlocksKey();
-                        info = this.blocksInfoCombinations[key];
+                        const base = blocksInfoBase[id];
+                        if (!base) return null;
+
+                        const isParent = (this.role === 'genitore');
+                        const title = isParent ? base.titleParent : base.titleStudent;
+                        const symptoms = isParent ? base.symptomsParent : base.symptomsStudent;
+
+                        return {
+                            title,
+                            symptoms,
+                            solution: this.buildBlocksSolution()
+                        };
                     }
 
-                    if (!info) return null;
+                    // combinazioni → testo generato in base alle scelte
+                    const labels = this.selectedBlocks
+                        .map(id => this.blocksOptions.find(o => o.id === id)?.label || '')
+                        .filter(Boolean);
 
                     const isParent = (this.role === 'genitore');
 
-                    const title = (isParent ? info.titleParent : info.titleStudent) || info.title || '';
-                    const symptoms =
-                        (isParent ? info.symptomsParent : info.symptomsStudent) ||
-                        info.symptoms ||
-                        [];
+                    const title = isParent
+                        ? `Si blocca in più punti: ${labels.join(', ')}`
+                        : `Ti blocchi in più punti: ${labels.join(', ')}`;
 
-                    const solution = this.buildBlocksSolution();
+                    const symptoms = isParent
+                        ? [
+                            'Non è solo un singolo aspetto a creare difficoltà: il problema emerge in più momenti dello studio.',
+                            `La preparazione per ${this.getValutazioniLabel()} richiede molta energia e spesso non porta i risultati sperati.`,
+                            'Questo insieme di blocchi rende lo studio più faticoso di quanto dovrebbe essere.'
+                        ]
+                        : [
+                            'Non è solo un singolo punto a bloccarti: ti sembra che le difficoltà emergano in vari momenti dello studio.',
+                            `Prepararti per ${this.getValutazioniLabel()} ti richiede moltissima energia e spesso il risultato non ti soddisfa.`,
+                            'La somma di questi blocchi rende lo studio più pesante e meno efficace di quanto potrebbe essere.'
+                        ];
 
-                    return { title, symptoms, solution };
+                    return {
+                        title,
+                        symptoms,
+                        solution: this.buildBlocksSolution()
+                    };
                 },
 
                 buildBlocksSolution() {
-                    if (this.selectedBlocks.length === 0) return '';
+                    if (this.selectedBlocks.length === 0 || !this.selectedLevel) return '';
 
                     const labels = this.selectedBlocks
                         .map(id => this.blocksOptions.find(o => o.id === id))
@@ -873,7 +844,11 @@
 
                     const lista = labels.join(', ');
 
-                    return `Lavoriamo insieme proprio su ${lista}: non aggiungo solo altre ore di studio, ma ti aiuto a cambiare il modo in cui si affrontano testi, compiti e verifiche.`;
+                    const baseIntro = this.role === 'genitore'
+                        ? `Lavoriamo proprio su ${lista}: non aggiungo solo altre ore di studio, ma lo aiuto a cambiare il modo in cui affronta `
+                        : `Lavoriamo proprio su ${lista}: non aggiungo solo altre ore di studio, ma ti aiuto a cambiare il modo in cui affronti `;
+
+                    return baseIntro + this.getStudioContestoLabel() + '.';
                 },
 
                 getStickySummary() {
@@ -933,6 +908,7 @@
                 getAttemptsInfo() {
                     if (this.selectedAttempts.length === 0) return null;
 
+                    // caso "Nulla" (solo oppure in mezzo al casino)
                     if (this.selectedAttempts.length === 1 && this.selectedAttempts[0] === 'N') {
                         const base = this.attemptsTexts['N'];
                         return {
