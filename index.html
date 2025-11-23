@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="it" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dolores Lullo | Metodo di Studio e Filosofia</title>
+    
+    <!-- Fonts: Playfair Display (Serif) & Inter (Sans) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS (via CDN per demo rapida) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Alpine.js (per la logica interattiva) -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <!-- Configurazione Colori Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cream: '#FDF6EF',
+                        petrol: '#13424B',
+                        coral: '#C24A3A',
+                        coralHover: '#A83E30',
+                        accent: '#F3B27C',
+                        surface: '#FFFBF7'
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Scrollbar styling for a cleaner look */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #FDF6EF; }
+        ::-webkit-scrollbar-thumb { background: #F3B27C; border-radius: 4px; }
+        
+        /* Utility per nascondere la scrollbar ma permettere lo scroll */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        [x-cloak] { display: none !important; }
+    </style>
+</head>
+<body class="bg-cream text-petrol font-sans antialiased selection:bg-accent selection:text-petrol"
+      x-data="studyMethodApp()" x-cloak>
+
+    <!-- HEADER MINIMAL -->
+    <header class="fixed top-0 w-full z-50 bg-cream/90 backdrop-blur-sm py-4 transition-all duration-300 border-b border-petrol/5">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <div class="font-serif text-2xl font-bold tracking-tight text-petrol cursor-pointer" @click="window.scrollTo(0,0)">
+                Dolores Lullo<span class="text-coral">.</span>
+            </div>
+            <a href="#diagnosi" class="hidden md:block text-sm font-medium uppercase tracking-widest hover:text-coral transition-colors">
+                Prenota Diagnosi
+            </a>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="pt-20">
+
+        <!-- SEZIONE 1: HERO & RUOLO -->
+        <section class="min-h-[90vh] flex flex-col justify-center items-center text-center px-6 relative overflow-hidden">
+            <!-- Decorazione astratta -->
+            <div class="absolute top-1/4 left-10 w-64 h-64 bg-accent/10 rounded-full blur-3xl -z-10"></div>
+            <div class="absolute bottom-1/4 right-10 w-80 h-80 bg-petrol/5 rounded-full blur-3xl -z-10"></div>
+
+            <h1 class="font-serif text-5xl md:text-7xl font-medium leading-tight mb-8 max-w-4xl mx-auto text-petrol">
+                Il problema è capire… <br>
+                <span class="italic text-coral">o ricordare?</span>
+            </h1>
+            
+            <p class="text-lg md:text-xl text-petrol/80 max-w-2xl mx-auto mb-12 font-light">
+                Rispondi a poche domande e scopri se il blocco nello studio è nei contenuti, nel metodo o nella gestione dell’ansia.
+            </p>
+
+            <div class="flex flex-col md:flex-row gap-4 w-full max-w-lg">
+                <button 
+                    @click="setRole('genitore')"
+                    :class="role === 'genitore' ? 'bg-petrol text-cream ring-4 ring-accent/30' : 'bg-white text-petrol border border-petrol/20 hover:border-coral hover:text-coral'"
+                    class="flex-1 py-5 px-8 rounded-lg text-lg font-medium transition-all duration-300 shadow-sm">
+                    Sono un Genitore
+                </button>
+                <button 
+                    @click="setRole('studente')"
+                    :class="role === 'studente' ? 'bg-petrol text-cream ring-4 ring-accent/30' : 'bg-white text-petrol border border-petrol/20 hover:border-coral hover:text-coral'"
+                    class="flex-1 py-5 px-8 rounded-lg text-lg font-medium transition-all duration-300 shadow-sm">
+                    Sono uno Studente
+                </button>
+            </div>
+        </section>
+
+        <!-- Contenitore che appare solo dopo aver scelto il ruolo -->
+        <div x-show="role" x-transition:enter="transition ease-out duration-700" x-transition:enter-start="opacity-0 translate-y-10" x-transition:enter-end="opacity-100 translate-y-0">
+
+            <!-- SEZIONE 2: DOVE TI BLOCCHI? -->
+            <section id="step-blocks" class="py-20 md:py-32 px-6">
+                <div class="container mx-auto max-w-6xl grid md:grid-cols-2 gap-16 items-start">
+                    
+                    <!-- Colonna Domande -->
+                    <div>
+                        <h2 class="font-serif text-4xl md:text-5xl mb-4 text-petrol">
+                            <span x-text="role === 'genitore' ? 'Dove si blocca di più tuo figlio?' : 'Dove ti blocchi di più quando studi?'"></span>
+                        </h2>
+                        <p class="text-petrol/60 mb-8 uppercase tracking-widest text-sm font-semibold">Seleziona una o più opzioni</p>
+                        
+                        <div class="flex flex-col gap-3">
+                            <template x-for="item in blocksOptions" :key="item.id">
+                                <button 
+                                    @click="toggleSelection('blocks', item.id)"
+                                    :class="selectedBlocks.includes(item.id) ? 'bg-coral text-white border-coral shadow-lg scale-[1.02]' : 'bg-transparent border-petrol/30 text-petrol hover:border-coral hover:text-coral'"
+                                    class="text-left py-4 px-6 rounded-full border transition-all duration-200 flex items-center justify-between group">
+                                    <span x-text="item.label" class="font-medium text-lg"></span>
+                                    <span x-show="selectedBlocks.includes(item.id)" class="text-xl">✓</span>
+                                </button>
+                            </template>
+                        </div>
+                    </div>
+
+                    <!-- Colonna Insight Dinamico -->
+                    <div class="sticky top-32 bg-white p-8 md:p-10 rounded-2xl shadow-xl border border-petrol/5 min-h-[300px] flex flex-col justify-center relative overflow-hidden">
+                        <!-- Decorazione background -->
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-accent/20 rounded-bl-full -z-0"></div>
+                        
+                        <template x-if="selectedBlocks.length === 0">
+                            <div class="text-center text-petrol/50">
+                                <svg class="w-12 h-12 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <p>Seleziona un'opzione per vedere l'analisi.</p>
+                            </div>
+                        </template>
+
+                        <template x-if="selectedBlocks.length > 0">
+                            <div class="relative z-10" x-transition.opacity>
+                                <span class="text-xs font-bold tracking-widest text-coral uppercase mb-2 block">Cosa succede di solito</span>
+                                <h3 class="font-serif text-2xl mb-4 text-petrol" x-text="getLastSelectedBlockInfo().title"></h3>
+                                <ul class="space-y-2 mb-8">
+                                    <template x-for="point in getLastSelectedBlockInfo().symptoms">
+                                        <li class="flex items-start gap-3 text-petrol/80">
+                                            <span class="text-coral mt-1.5 text-xs">●</span>
+                                            <span x-text="point"></span>
+                                        </li>
+                                    </template>
+                                </ul>
+                                
+                                <div class="border-t border-petrol/10 pt-6">
+                                    <span class="text-xs font-bold tracking-widest text-petrol/60 uppercase mb-2 block">Il mio intervento</span>
+                                    <p class="text-petrol italic font-serif text-lg leading-relaxed" x-text="getLastSelectedBlockInfo().solution"></p>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- SEZIONE 3: TENTATIVI FALLITI -->
+            <section class="py-20 bg-surface border-y border-petrol/5">
+                <div class="container mx-auto max-w-4xl px-6 text-center">
+                    <h2 class="font-serif text-3xl md:text-4xl mb-10 text-petrol">
+                        <span x-text="role === 'genitore' ? 'Cosa avete già provato per migliorare la situazione?' : 'Cosa hai già provato per migliorare?'"></span>
+                    </h2>
+
+                    <div class="flex flex-wrap justify-center gap-3 mb-12">
+                        <template x-for="attempt in attemptsOptions" :key="attempt">
+                            <button 
+                                @click="toggleSelection('attempts', attempt)"
+                                :class="selectedAttempts.includes(attempt) ? 'bg-petrol text-white border-petrol' : 'bg-white border-petrol/20 text-petrol/70 hover:border-petrol hover:text-petrol'"
+                                class="py-3 px-6 rounded-full border transition-all duration-200 font-medium">
+                                <span x-text="attempt"></span>
+                            </button>
+                        </template>
+                    </div>
+
+                    <!-- Copy reattivo -->
+                    <div class="bg-cream p-8 rounded-xl border border-petrol/10 max-w-2xl mx-auto" x-show="selectedAttempts.length > 0" x-transition>
+                        <p class="text-lg font-serif italic text-petrol">
+                            "Se hai già provato queste strade e non è cambiato molto, probabilmente il problema non è <span class="underline decoration-coral decoration-2 underline-offset-4">quanto</span> studi, ma <span class="underline decoration-coral decoration-2 underline-offset-4">come è organizzato</span> il pensiero. Qui non ci limitiamo a ‘spiegare la lezione’, ricostruiamo il metodo."
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SEZIONE 4: OBIETTIVI -->
+            <section class="py-20 md:py-32 px-6">
+                <div class="container mx-auto max-w-5xl">
+                    <h2 class="font-serif text-4xl md:text-5xl mb-12 text-center text-petrol">
+                        <span x-text="role === 'genitore' ? 'Fra 2–3 mesi, cosa vorresti fosse diverso?' : 'Fra 2–3 mesi, cosa vorresti fosse diverso per te?'"></span>
+                    </h2>
+
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <template x-for="goal in goalsOptions" :key="goal.id">
+                            <button 
+                                @click="toggleSelection('goals', goal.id)"
+                                :class="selectedGoals.includes(goal.id) ? 'bg-accent/20 border-accent' : 'bg-white border-petrol/10 hover:border-accent'"
+                                class="text-left p-6 rounded-xl border transition-all duration-200 h-full flex flex-col justify-between group hover:shadow-md">
+                                <div>
+                                    <span class="block font-serif text-xl mb-2 group-hover:text-coral transition-colors" x-text="goal.label"></span>
+                                </div>
+                                <div class="mt-4 pt-4 border-t border-petrol/5">
+                                    <span class="text-sm text-petrol/60 uppercase tracking-wider font-bold text-[10px]">Obiettivo Concreto</span>
+                                    <p class="text-sm mt-1 text-petrol font-medium" x-text="goal.promise"></p>
+                                </div>
+                            </button>
+                        </template>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SEZIONE 5: FILOSOFIA / METODO -->
+            <section class="py-24 bg-petrol text-cream px-6 relative overflow-hidden">
+                <!-- Decorazione background -->
+                <div class="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
+
+                <div class="container mx-auto max-w-6xl relative z-10">
+                    <div class="text-center mb-16">
+                        <h2 class="font-serif text-4xl md:text-6xl mb-6 text-surface">Non faccio solo ripetizioni. <br> <span class="text-accent italic">Alleno il modo di pensare.</span></h2>
+                        <p class="text-xl text-cream/80 max-w-2xl mx-auto font-light" 
+                           x-text="role === 'genitore' ? 'Così tuo figlio non impara solo la lezione di domani, ma un metodo che resta.' : 'Così non vivi più col panico di dimenticare tutto dopo l’esame.'"></p>
+                    </div>
+
+                    <div class="grid md:grid-cols-3 gap-8 text-center md:text-left relative">
+                        <!-- Linea di connessione (Desktop) -->
+                        <div class="hidden md:block absolute top-8 left-0 w-full h-0.5 bg-accent/20 -z-0"></div>
+
+                        <!-- Step 1 -->
+                        <div class="relative bg-petrol p-6 pt-0">
+                            <div class="w-16 h-16 bg-petrol border-2 border-accent text-accent rounded-full flex items-center justify-center text-2xl font-serif font-bold mb-6 mx-auto md:mx-0 relative z-10">1</div>
+                            <h3 class="text-2xl font-serif text-accent mb-4">Capire</h3>
+                            <p class="text-cream/70 leading-relaxed">Individuiamo dove ti blocchi davvero. Non guardiamo solo il voto, ma osserviamo <em>come</em> studi e dove si inceppa il ragionamento.</p>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="relative bg-petrol p-6 pt-0">
+                            <div class="w-16 h-16 bg-petrol border-2 border-accent text-accent rounded-full flex items-center justify-center text-2xl font-serif font-bold mb-6 mx-auto md:mx-0 relative z-10">2</div>
+                            <h3 class="text-2xl font-serif text-accent mb-4">Riorganizzare</h3>
+                            <p class="text-cream/70 leading-relaxed">Costruiamo un metodo su misura. Niente "leggi e ripeti", ma mappe, domande guida e schemi logici adatti al tuo livello.</p>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="relative bg-petrol p-6 pt-0">
+                            <div class="w-16 h-16 bg-petrol border-2 border-accent text-accent rounded-full flex items-center justify-center text-2xl font-serif font-bold mb-6 mx-auto md:mx-0 relative z-10">3</div>
+                            <h3 class="text-2xl font-serif text-accent mb-4">Allenare</h3>
+                            <p class="text-cream/70 leading-relaxed">Simuliamo verifiche, interrogazioni e discussioni. Correggiamo il processo mentale, non solo il risultato finale.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SEZIONE 6: PERCORSI (LEVELS) -->
+            <section class="py-24 px-6 bg-cream">
+                <div class="container mx-auto max-w-6xl">
+                    <div class="text-center mb-16">
+                        <h2 class="font-serif text-4xl text-petrol mb-4">Percorsi diversi per livelli diversi.</h2>
+                        <p class="text-petrol/70">Il metodo è lo stesso: il pensiero critico. L'applicazione cambia con l'età.</p>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <!-- ELEMENTARI -->
+                        <div class="bg-white p-8 rounded-xl shadow-sm border border-petrol/5 hover:border-coral/30 transition-all group flex flex-col">
+                            <span class="text-xs font-bold tracking-widest text-petrol/40 mb-4">ELEMENTARI</span>
+                            <h3 class="font-serif text-2xl text-petrol mb-2 group-hover:text-coral transition-colors">Basi solide e fiducia</h3>
+                            <p class="text-sm text-petrol/60 italic mb-6">"I compiti sono una lotta quotidiana."</p>
+                            <ul class="text-sm text-petrol/80 space-y-2 mb-8 flex-grow">
+                                <li>• Aiuto compiti 360°</li>
+                                <li>• Lettura e comprensione</li>
+                                <li>• Approccio ludico e curioso</li>
+                            </ul>
+                            <button @click="selectLevel('Elementari')" class="w-full py-3 text-sm font-bold border border-petrol/20 rounded hover:bg-petrol hover:text-white transition-colors">Mi interessa Elementari</button>
+                        </div>
+
+                        <!-- MEDIE -->
+                        <div class="bg-white p-8 rounded-xl shadow-sm border border-petrol/5 hover:border-coral/30 transition-all group flex flex-col">
+                            <span class="text-xs font-bold tracking-widest text-petrol/40 mb-4">MEDIE</span>
+                            <h3 class="font-serif text-2xl text-petrol mb-2 group-hover:text-coral transition-colors">Dal 'memoria' al 'capisco'</h3>
+                            <p class="text-sm text-petrol/60 italic mb-6">"Fa fatica con testi lunghi e sintesi."</p>
+                            <ul class="text-sm text-petrol/80 space-y-2 mb-8 flex-grow">
+                                <li>• Materie umanistiche</li>
+                                <li>• Metodo di studio autonomo</li>
+                                <li>• Analisi e sintesi testi</li>
+                            </ul>
+                            <button @click="selectLevel('Medie')" class="w-full py-3 text-sm font-bold border border-petrol/20 rounded hover:bg-petrol hover:text-white transition-colors">Mi interessa Medie</button>
+                        </div>
+
+                        <!-- SUPERIORI -->
+                        <div class="bg-white p-8 rounded-xl shadow-sm border border-petrol/5 hover:border-coral/30 transition-all group flex flex-col">
+                            <span class="text-xs font-bold tracking-widest text-petrol/40 mb-4">SUPERIORI</span>
+                            <h3 class="font-serif text-2xl text-petrol mb-2 group-hover:text-coral transition-colors">Maturità senza naufragare</h3>
+                            <p class="text-sm text-petrol/60 italic mb-6">"Filosofia e Storia sono un ostacolo."</p>
+                            <ul class="text-sm text-petrol/80 space-y-2 mb-8 flex-grow">
+                                <li>• Ripetizioni Filosofia/Storia</li>
+                                <li>• Preparazione esami/tesine</li>
+                                <li>• Logica e argomentazione</li>
+                            </ul>
+                            <button @click="selectLevel('Superiori')" class="w-full py-3 text-sm font-bold border border-petrol/20 rounded hover:bg-petrol hover:text-white transition-colors">Mi interessa Superiori</button>
+                        </div>
+
+                        <!-- UNIVERSITÀ -->
+                        <div class="bg-white p-8 rounded-xl shadow-sm border border-petrol/5 hover:border-coral/30 transition-all group flex flex-col">
+                            <span class="text-xs font-bold tracking-widest text-petrol/40 mb-4">UNIVERSITÀ</span>
+                            <h3 class="font-serif text-2xl text-petrol mb-2 group-hover:text-coral transition-colors">Esami e Tesi sbloccati</h3>
+                            <p class="text-sm text-petrol/60 italic mb-6">"Bloccato sulla scrittura o concetti."</p>
+                            <ul class="text-sm text-petrol/80 space-y-2 mb-8 flex-grow">
+                                <li>• Esami Filosofia/Etica/Storia</li>
+                                <li>• Supporto scrittura Tesi</li>
+                                <li>• Approfondimento critico</li>
+                            </ul>
+                            <button @click="selectLevel('Università')" class="w-full py-3 text-sm font-bold border border-petrol/20 rounded hover:bg-petrol hover:text-white transition-colors">Mi interessa Uni</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SEZIONE 7: CHECKLIST DIAGNOSI -->
+            <section id="diagnosi-info" class="py-20 bg-surface border-t border-petrol/10 px-6">
+                <div class="container mx-auto max-w-4xl text-center">
+                    <h2 class="font-serif text-3xl md:text-5xl mb-12 text-petrol">La prima sessione è gratuita,<br> ma non è una chiacchierata a caso.</h2>
+                    
+                    <div class="grid md:grid-cols-2 gap-8 text-left max-w-3xl mx-auto mb-12">
+                        <div class="flex gap-4">
+                            <div class="w-10 h-10 rounded-full bg-coral/10 flex items-center justify-center text-coral shrink-0">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-petrol">Analisi Reale</h4>
+                                <p class="text-petrol/70 text-sm">Guardiamo voti, tempi e difficoltà concrete.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="w-10 h-10 rounded-full bg-coral/10 flex items-center justify-center text-coral shrink-0">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-petrol">Test sul campo</h4>
+                                <p class="text-petrol/70 text-sm">Ti vedo affrontare un testo o un esercizio in diretta.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="w-10 h-10 rounded-full bg-coral/10 flex items-center justify-center text-coral shrink-0">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-petrol">Intervento pratico</h4>
+                                <p class="text-petrol/70 text-sm">Lavoriamo subito su un blocco specifico.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="w-10 h-10 rounded-full bg-coral/10 flex items-center justify-center text-coral shrink-0">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-petrol">Mini-Piano</h4>
+                                <p class="text-petrol/70 text-sm">Definiamo obiettivi realistici e durata del percorso.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button @click="scrollToForm()" class="bg-coral text-white py-4 px-10 rounded-lg text-xl font-medium shadow-lg hover:bg-coralHover hover:-translate-y-1 transition-all">
+                        Prenota Diagnosi Gratuita
+                    </button>
+                </div>
+            </section>
+
+            <!-- SEZIONE 8: FORM FINALE -->
+            <section id="diagnosi" class="py-24 px-6 bg-white">
+                <div class="container mx-auto max-w-2xl">
+                    <div class="text-center mb-10">
+                        <h2 class="font-serif text-4xl text-petrol mb-4">Parlami del tuo caso in 60 secondi.</h2>
+                        <p class="text-petrol/60">I campi sono in parte già compilati in base alle tue risposte.</p>
+                    </div>
+
+                    <form class="space-y-6" @submit.prevent="submitForm">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <!-- Tipo Utente -->
+                            <div>
+                                <label class="block text-xs font-bold uppercase text-petrol/50 mb-1">Chi sei</label>
+                                <input type="text" :value="role === 'genitore' ? 'Genitore' : 'Studente'" disabled class="w-full p-3 bg-cream border border-petrol/10 rounded text-petrol font-medium cursor-not-allowed">
+                            </div>
+                            
+                            <!-- Livello -->
+                            <div>
+                                <label class="block text-xs font-bold uppercase text-petrol/50 mb-1">Livello Scolastico</label>
+                                <select x-model="selectedLevel" class="w-full p-3 bg-surface border border-petrol/20 rounded text-petrol focus:border-coral focus:ring-1 focus:ring-coral outline-none">
+                                    <option value="">Seleziona livello...</option>
+                                    <option value="Elementari">Elementari</option>
+                                    <option value="Medie">Medie</option>
+                                    <option value="Superiori">Superiori</option>
+                                    <option value="Università">Università</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Problemi (TextArea precompilata logicamente, ma editabile) -->
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-petrol/50 mb-1">Principali difficoltà</label>
+                            <textarea rows="3" x-model="formProblems" class="w-full p-3 bg-surface border border-petrol/20 rounded text-petrol focus:border-coral focus:ring-1 focus:ring-coral outline-none placeholder-petrol/30" placeholder="Es. Capire i testi, organizzare il tempo..."></textarea>
+                            <p class="text-xs text-petrol/40 mt-1 text-right">Suggerito dalle tue scelte precedenti</p>
+                        </div>
+
+                        <!-- Obiettivo -->
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-petrol/50 mb-1">Obiettivo principale</label>
+                            <input type="text" x-model="formGoal" class="w-full p-3 bg-surface border border-petrol/20 rounded text-petrol focus:border-coral focus:ring-1 focus:ring-coral outline-none" placeholder="Es. Voti più stabili, passare l'esame...">
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-xs font-bold uppercase text-petrol/50 mb-1">Nome</label>
+                                <input type="text" required class="w-full p-3 bg-surface border border-petrol/20 rounded text-petrol focus:border-coral focus:ring-1 focus:ring-coral outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold uppercase text-petrol/50 mb-1">Email o Telefono</label>
+                                <input type="text" required class="w-full p-3 bg-surface border border-petrol/20 rounded text-petrol focus:border-coral focus:ring-1 focus:ring-coral outline-none">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="w-full bg-petrol text-white py-4 rounded-lg font-medium text-lg hover:bg-petrol/90 transition-all shadow-lg mt-4">
+                            Invia richiesta Diagnosi
+                        </button>
+                    </form>
+
+                    <div class="mt-12 text-center pt-10 border-t border-petrol/10">
+                        <p class="mb-4 text-petrol/70">Preferisci scrivermi direttamente?</p>
+                        <a :href="whatsappLink" target="_blank" class="inline-flex items-center gap-2 text-green-600 font-bold hover:underline text-lg">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.463 1.065 2.876 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                            Scrivimi su WhatsApp
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <!-- STICKY CTA (Appare dopo scroll o interazione) -->
+        <div x-show="showStickyCTA && role" 
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 translate-y-20"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             class="fixed bottom-6 right-6 z-40 flex flex-col items-end">
+            
+            <!-- Pillola di riepilogo (opzionale) -->
+            <div x-show="selectedBlocks.length > 0" class="bg-petrol text-white text-xs py-1 px-3 rounded-t-lg mb-0 shadow-lg w-fit max-w-[200px] truncate">
+                Focus: <span x-text="getStickySummary()"></span>
+            </div>
+
+            <button @click="scrollToForm()" class="bg-coral hover:bg-coralHover text-white font-bold py-3 px-6 rounded-l-xl rounded-br-xl shadow-2xl flex items-center gap-3 transition-all hover:scale-105">
+                <span>Prenota Diagnosi</span>
+                <span class="text-xs font-normal opacity-80 block" x-text="role === 'genitore' ? 'per tuo figlio' : 'per il tuo studio'"></span>
+            </button>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-petrol text-cream/60 py-12 px-6 text-center text-sm">
+        <p class="font-serif text-xl text-cream mb-4">Dolores Lullo</p>
+        <p>© 2025 - Metodo di Studio e Consulenza Filosofica.</p>
+    </footer>
+
+    <!-- ALPINE LOGIC -->
+    <script>
+        function studyMethodApp() {
+            return {
+                role: null, // 'genitore' | 'studente'
+                selectedBlocks: [],
+                selectedAttempts: [],
+                selectedGoals: [],
+                selectedLevel: '',
+                showStickyCTA: false,
+                formProblems: '', // Legato al textarea
+                formGoal: '', // Legato all'input goal
+
+                // Dati per le sezioni (in un'app reale verrebbero da un DB o JSON)
+                blocksOptions: [
+                    { id: 'capire', label: 'Capire i testi complessi' },
+                    { id: 'organizzare', label: 'Organizzare tempo e compiti' },
+                    { id: 'verifiche', label: 'Preparare verifiche ed esami' },
+                    { id: 'scrivere', label: 'Scrivere (temi, tesi, tesine)' }
+                ],
+
+                blocksInfo: {
+                    'capire': {
+                        title: 'Difficoltà di comprensione',
+                        symptoms: ['Legge ma non sa spiegare con parole sue.', 'Si perde nei dettagli e non trova il centro.'],
+                        solution: 'Insegno a smontare il testo, trovare le idee chiave e ricostruire il discorso.'
+                    },
+                    'organizzare': {
+                        title: 'Caos organizzativo',
+                        symptoms: ['Studia fino a tardi ma rende poco.', 'Si riduce sempre all\'ultimo minuto.'],
+                        solution: 'Costruiamo un piano realistico basato sui ritmi personali, non sulle ore seduti.'
+                    },
+                    'verifiche': {
+                        title: 'Ansia da prestazione',
+                        symptoms: ['A casa sa tutto, davanti al prof si blocca.', 'Vuoto di memoria improvviso.'],
+                        solution: 'Simuliamo l\'interrogazione per allenare l\'esposizione e gestire l\'emotività.'
+                    },
+                    'scrivere': {
+                        title: 'Blocco dello scrittore',
+                        symptoms: ['Fissa il foglio bianco.', 'Frasi contorte e poco chiare.'],
+                        solution: 'Lavoriamo sulla scaletta logica prima di scrivere una sola parola.'
+                    }
+                },
+
+                attemptsOptions: [
+                    'Ripetizioni generiche',
+                    'Studiare più ore',
+                    'Schemi fai-da-te',
+                    'Nulla, improvvisiamo'
+                ],
+
+                goalsOptions: [
+                    { id: 'autonomia', label: 'Più autonomia', promise: 'Che sappia organizzarsi senza bisogno di controllo continuo.' },
+                    { id: 'ansia', label: 'Meno ansia', promise: 'Affrontare le prove con la sicurezza di chi sa.' },
+                    { id: 'voti', label: 'Voti stabili', promise: 'Niente più montagne russe: risultati costanti.' },
+                    { id: 'esposizione', label: 'Saper spiegare', promise: 'Esporre concetti complessi con parole semplici.' }
+                ],
+
+                init() {
+                    // Attiva sticky CTA allo scroll
+                    window.addEventListener('scroll', () => {
+                        this.showStickyCTA = window.scrollY > 600;
+                    });
+                },
+
+                setRole(r) {
+                    this.role = r;
+                    // Scroll morbido alla sezione successiva dopo breve delay
+                    setTimeout(() => {
+                        document.getElementById('step-blocks').scrollIntoView({ behavior: 'smooth' });
+                    }, 300);
+                },
+
+                toggleSelection(type, value) {
+                    let arr;
+                    if (type === 'blocks') arr = this.selectedBlocks;
+                    if (type === 'attempts') arr = this.selectedAttempts;
+                    if (type === 'goals') arr = this.selectedGoals;
+
+                    if (arr.includes(value)) {
+                        arr.splice(arr.indexOf(value), 1);
+                    } else {
+                        arr.push(value);
+                    }
+
+                    // Aggiorna i campi del form
+                    this.updateFormFields();
+                },
+
+                getLastSelectedBlockInfo() {
+                    if (this.selectedBlocks.length === 0) return {};
+                    const lastId = this.selectedBlocks[this.selectedBlocks.length - 1];
+                    return this.blocksInfo[lastId];
+                },
+
+                getStickySummary() {
+                    if (this.selectedBlocks.length === 0) return '...';
+                    // Ritorna le prime 2 scelte troncate
+                    return this.selectedBlocks.map(id => 
+                        this.blocksOptions.find(o => o.id === id).label
+                    ).join(', ').substring(0, 25) + '...';
+                },
+
+                selectLevel(level) {
+                    this.selectedLevel = level;
+                    this.scrollToForm();
+                },
+
+                updateFormFields() {
+                    // Popola la textarea 'Problemi' basandosi sui blocchi selezionati
+                    const problemsText = this.selectedBlocks.map(id => 
+                        this.blocksOptions.find(o => o.id === id).label
+                    ).join(', ');
+                    
+                    if(problemsText) this.formProblems = problemsText;
+
+                    // Popola l'input 'Obiettivo' basandosi sulla prima scelta
+                    if(this.selectedGoals.length > 0) {
+                        const firstGoal = this.goalsOptions.find(g => g.id === this.selectedGoals[0]);
+                        this.formGoal = firstGoal.label;
+                    }
+                },
+
+                scrollToForm() {
+                    document.getElementById('diagnosi').scrollIntoView({ behavior: 'smooth' });
+                },
+
+                get whatsappLink() {
+                    const phone = "391234567890"; // Numero fittizio
+                    let text = `Ciao Dolores, sono un ${this.role || 'interessato'}`;
+                    
+                    if (this.selectedLevel) text += ` (Livello: ${this.selectedLevel})`;
+                    if (this.formProblems) text += `. Ho difficoltà su: ${this.formProblems}`;
+                    
+                    text += ". Vorrei prenotare la diagnosi gratuita.";
+                    
+                    return `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
+                },
+                
+                submitForm() {
+                    alert("Grazie! In un sito reale, questo invierebbe i dati al server. Ora ti porto su WhatsApp.");
+                    window.open(this.whatsappLink, '_blank');
+                }
+            }
+        }
+    </script>
+</body>
+</html>
