@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dolores Lullo | Metodo di Studio e Filosofia</title>
+    <title>Sapere Aude | Metodo di Studio e Filosofia – Dolores Lullo</title>
 
-    <meta name="description" content="Dolores Lullo, dottoressa in Filosofia, aiuta studenti e genitori a sbloccare metodo di studio, comprensione dei testi, ansia da verifiche e scrittura di temi, tesine e tesi. Prima sessione gratuita.">
+    <meta name="description" content="Sapere Aude è il metodo di studio guidato da Dolores Lullo, dottoressa in Filosofia. Percorsi personalizzati per elementari, medie, superiori e università: comprensione testi, metodo di studio, ansia da verifiche, scrittura di temi, tesine e tesi. Prima sessione gratuita.">
 
-    <meta property="og:title" content="Metodo di Studio & Consulenza Filosofica - Dolores Lullo">
-    <meta property="og:description" content="Percorsi personalizzati per elementari, medie, superiori e università. Prima sessione gratuita, niente ripetizioni generiche.">
+    <meta property="og:title" content="Sapere Aude | Metodo di Studio – Dolores Lullo">
+    <meta property="og:description" content="Percorsi di metodo di studio personalizzati guidati da una filosofa. Dalle elementari all’università, senza ripetizioni generiche.">
     <meta property="og:type" content="website">
 
     <!-- Fonts: Playfair Display (Serif) & Inter (Sans) -->
@@ -61,8 +61,10 @@
     <!-- HEADER MINIMAL -->
     <header class="fixed top-0 w-full z-50 bg-cream/90 backdrop-blur-sm py-4 transition-all duration-300 border-b border-petrol/5">
         <div class="container mx-auto px-6 flex justify-between items-center">
-            <div class="font-serif text-2xl font-bold tracking-tight text-petrol cursor-pointer" @click="window.scrollTo({top:0, behavior:'smooth'})">
-                Dolores Lullo<span class="text-coral">.</span>
+            <div class="font-serif text-2xl md:text-3xl font-semibold tracking-[0.18em] uppercase text-petrol cursor-pointer flex items-baseline gap-1"
+                 @click="window.scrollTo({top:0, behavior:'smooth'})">
+                <span>Sapere</span>
+                <span class="text-coral">Aude</span>
             </div>
             <a href="#colloquio" class="hidden md:block text-sm font-medium uppercase tracking-widest hover:text-coral transition-colors">
                 Prenota un colloquio
@@ -75,7 +77,6 @@
 
         <!-- SEZIONE 1: HERO & RUOLO -->
         <section class="min-h-[90vh] flex flex-col justify-center items-center text-center px-6 relative overflow-hidden">
-            <!-- Decorazione astratta -->
             <div class="absolute top-1/4 left-10 w-64 h-64 bg-accent/10 rounded-full blur-3xl -z-10"></div>
             <div class="absolute bottom-1/4 right-10 w-80 h-80 bg-petrol/5 rounded-full blur-3xl -z-10"></div>
 
@@ -486,15 +487,18 @@
 
     <!-- FOOTER -->
     <footer class="bg-petrol text-cream/60 py-12 px-6 text-center text-sm">
-        <p class="font-serif text-xl text-cream mb-4">Dolores Lullo</p>
-        <p>© 2025 - Metodo di Studio e Consulenza Filosofica.</p>
+        <p class="font-serif text-xl text-cream mb-1">Sapere Aude</p>
+        <p class="text-cream/80 text-sm mb-2">Dolores Lullo</p>
+        <p class="text-cream/70 text-xs mb-1">Dottoressa in Filosofia</p>
+        <p class="text-cream/70 text-xs mb-4">Specializzata in Filosofia della Scienza e Logica</p>
+        <p class="text-cream/60 text-xs">© 2025 • Sapere Aude – Metodo di studio personalizzato.</p>
     </footer>
 
     <!-- ALPINE LOGIC -->
     <script>
         function studyMethodApp() {
             return {
-                role: null, // 'genitore' | 'studente'
+                role: null,
                 selectedBlocks: [],
                 selectedAttempts: [],
                 selectedGoals: [],
@@ -503,11 +507,9 @@
                 formProblems: '',
                 formGoal: '',
 
-                // Ordine canonico per le combinazioni
                 blocksOrder: ['capire', 'organizzare', 'verifiche', 'scrivere'],
                 attemptsOrder: ['R', 'S', 'H', 'N'],
 
-                // Opzioni blocchi
                 blocksOptions: [
                     { id: 'capire', label: 'Capire i testi complessi' },
                     { id: 'organizzare', label: 'Organizzare tempo e compiti' },
@@ -515,7 +517,6 @@
                     { id: 'scrivere', label: 'Scrivere (temi, tesi, tesine)' }
                 ],
 
-                // Testi per i singoli blocchi
                 blocksInfo: {
                     'capire': {
                         titleParent: 'Fa fatica a capire ciò che legge',
@@ -575,9 +576,7 @@
                     }
                 },
 
-                // Testi per combinazioni di blocchi (AB, AC, AD, BC, BD, CD, ABC, ABD, ACD, BCD, ABCD)
                 blocksInfoCombinations: {
-                    // Doppie
                     'capire_organizzare': {
                         titleParent: 'Studia tanto, capisce poco e si perde nel caos',
                         titleStudent: 'Studio tanto, capisco poco e mi perdo nel caos',
@@ -662,8 +661,6 @@
                             'Ogni prova ti sembra un giudizio su di te, più che sul lavoro che hai fatto.'
                         ]
                     },
-
-                    // Triple
                     'capire_organizzare_verifiche': {
                         titleParent: 'Studia tanto, capisce a metà e alle verifiche crolla',
                         titleStudent: 'Studio tanto, capisco a metà e alle verifiche crollo',
@@ -720,8 +717,6 @@
                             'Scrittura e studio ti sembrano due problemi separati, difficili da tenere insieme.'
                         ]
                     },
-
-                    // Tutte e quattro
                     'capire_organizzare_verifiche_scrivere': {
                         titleParent: 'Sistema di studio frammentato: tanta fatica, poca resa',
                         titleStudent: 'Sistema di studio frammentato: tanta fatica, poca resa',
@@ -738,7 +733,6 @@
                     }
                 },
 
-                // Tentativi già provati
                 attemptsOptions: [
                     { id: 'R', label: 'Ripetizioni generiche' },
                     { id: 'S', label: 'Studiare più ore' },
@@ -781,7 +775,6 @@
                     }
                 },
 
-                // Obiettivi
                 goalsOptions: [
                     { id: 'autonomia', label: 'Più autonomia', promise: 'Organizzare studio e compiti senza bisogno di controllo continuo.' },
                     { id: 'ansia', label: 'Meno ansia', promise: 'Affrontare verifiche e interrogazioni con più solidità e meno panico.' },
@@ -805,7 +798,6 @@
 
                 toggleSelection(type, value) {
                     if (type === 'attempts') {
-                        // Gestione speciale per "Nulla, improvvisiamo" (N)
                         if (value === 'N') {
                             if (this.selectedAttempts.includes('N')) {
                                 this.selectedAttempts = [];
@@ -813,7 +805,6 @@
                                 this.selectedAttempts = ['N'];
                             }
                         } else {
-                            // Rimuovi N se presente
                             this.selectedAttempts = this.selectedAttempts.filter(v => v !== 'N');
 
                             if (this.selectedAttempts.includes(value)) {
@@ -904,7 +895,7 @@
                 },
 
                 updateFormFields() {
-                    // Principali difficoltà: dai blocchi selezionati
+                    // Principali difficoltà
                     if (this.selectedBlocks.length === 0) {
                         this.formProblems = '';
                     } else {
@@ -915,12 +906,15 @@
                         this.formProblems = labels.join(', ');
                     }
 
-                    // Obiettivo principale: prima goal selezionata
+                    // Obiettivo principale: tutte le goals selezionate
                     if (this.selectedGoals.length === 0) {
                         this.formGoal = '';
                     } else {
-                        const firstGoal = this.goalsOptions.find(g => g.id === this.selectedGoals[0]);
-                        this.formGoal = firstGoal ? firstGoal.label : '';
+                        const labels = this.selectedGoals
+                            .map(id => this.goalsOptions.find(g => g.id === id))
+                            .filter(Boolean)
+                            .map(g => g.label);
+                        this.formGoal = labels.join(', ');
                     }
                 },
 
@@ -939,7 +933,6 @@
                 getAttemptsInfo() {
                     if (this.selectedAttempts.length === 0) return null;
 
-                    // Caso "Nulla, improvvisiamo"
                     if (this.selectedAttempts.length === 1 && this.selectedAttempts[0] === 'N') {
                         const base = this.attemptsTexts['N'];
                         return {
@@ -947,7 +940,6 @@
                         };
                     }
 
-                    // Qualsiasi altra combinazione che includa N viene trattata come N
                     if (this.selectedAttempts.includes('N')) {
                         const base = this.attemptsTexts['N'];
                         return {
@@ -966,7 +958,7 @@
                 },
 
                 get whatsappLink() {
-                    const phone = "391234567890"; // Sostituire con numero reale, es: 3934xxxxxxx
+                    const phone = "391234567890";
                     let text = `Ciao Dolores, sono un ${this.role || 'interessato'}`;
 
                     if (this.selectedLevel) text += ` (livello: ${this.selectedLevel})`;
@@ -979,13 +971,11 @@
                 },
 
                 submitForm() {
-                    // Mini validazione minima: almeno difficoltà o obiettivo
                     if (!this.formProblems && !this.formGoal) {
                         alert("Scrivi almeno una difficoltà o un obiettivo, così il colloquio ha subito un punto di partenza concreto.");
                         return;
                     }
 
-                    // In un sito reale qui invieresti i dati a un backend
                     alert("Richiesta inviata. Ora si apre WhatsApp per completare il contatto.");
                     window.open(this.whatsappLink, '_blank');
                 }
